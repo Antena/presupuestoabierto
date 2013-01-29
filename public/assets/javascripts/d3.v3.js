@@ -11,7 +11,7 @@
       d3_style_setProperty.call(this, name, value + "", priority);
     };
   }
-  d3 = {
+  d3v3 = {
     version: "3.0.4"
   };
   var π = Math.PI, ε = 1e-6, d3_radians = π / 180, d3_degrees = 180 / π;
@@ -52,7 +52,7 @@
   } : function(array, prototype) {
     for (var property in prototype) array[property] = prototype[property];
   };
-  d3.map = function(object) {
+  d3v3.map = function(object) {
     var map = new d3_Map();
     for (var key in object) map.set(key, object[key]);
     return map;
@@ -116,8 +116,8 @@
       return v;
     };
   }
-  d3.functor = d3_functor;
-  d3.rebind = function(target, source) {
+  d3v3.functor = d3_functor;
+  d3v3.rebind = function(target, source) {
     var i = 1, n = arguments.length, method;
     while (++i < n) target[method = arguments[i]] = d3_rebind(target, source, source[method]);
     return target;
@@ -128,13 +128,13 @@
       return arguments.length ? target : value;
     };
   }
-  d3.ascending = function(a, b) {
+  d3v3.ascending = function(a, b) {
     return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
   };
-  d3.descending = function(a, b) {
+  d3v3.descending = function(a, b) {
     return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
   };
-  d3.mean = function(array, f) {
+  d3v3.mean = function(array, f) {
     var n = array.length, a, m = 0, i = -1, j = 0;
     if (arguments.length === 1) {
       while (++i < n) if (d3_number(a = array[i])) m += (a - m) / ++j;
@@ -143,12 +143,12 @@
     }
     return j ? m : undefined;
   };
-  d3.median = function(array, f) {
+  d3v3.median = function(array, f) {
     if (arguments.length > 1) array = array.map(f);
     array = array.filter(d3_number);
-    return array.length ? d3.quantile(array.sort(d3.ascending), .5) : undefined;
+    return array.length ? d3v3.quantile(array.sort(d3v3.ascending), .5) : undefined;
   };
-  d3.min = function(array, f) {
+  d3v3.min = function(array, f) {
     var i = -1, n = array.length, a, b;
     if (arguments.length === 1) {
       while (++i < n && ((a = array[i]) == null || a != a)) a = undefined;
@@ -159,7 +159,7 @@
     }
     return a;
   };
-  d3.max = function(array, f) {
+  d3v3.max = function(array, f) {
     var i = -1, n = array.length, a, b;
     if (arguments.length === 1) {
       while (++i < n && ((a = array[i]) == null || a != a)) a = undefined;
@@ -170,7 +170,7 @@
     }
     return a;
   };
-  d3.extent = function(array, f) {
+  d3v3.extent = function(array, f) {
     var i = -1, n = array.length, a, b, c;
     if (arguments.length === 1) {
       while (++i < n && ((a = c = array[i]) == null || a != a)) a = c = undefined;
@@ -187,7 +187,7 @@
     }
     return [ a, c ];
   };
-  d3.random = {
+  d3v3.random = {
     normal: function(µ, σ) {
       var n = arguments.length;
       if (n < 2) σ = 1;
@@ -206,7 +206,7 @@
       var n = arguments.length;
       if (n < 2) σ = 1;
       if (n < 1) µ = 0;
-      var random = d3.random.normal();
+      var random = d3v3.random.normal();
       return function() {
         return Math.exp(µ + σ * random());
       };
@@ -221,7 +221,7 @@
   function d3_number(x) {
     return x != null && !isNaN(x);
   }
-  d3.sum = function(array, f) {
+  d3v3.sum = function(array, f) {
     var s = 0, n = array.length, a, i = -1;
     if (arguments.length === 1) {
       while (++i < n) if (!isNaN(a = +array[i])) s += a;
@@ -230,11 +230,11 @@
     }
     return s;
   };
-  d3.quantile = function(values, p) {
+  d3v3.quantile = function(values, p) {
     var H = (values.length - 1) * p + 1, h = Math.floor(H), v = +values[h - 1], e = H - h;
     return e ? v + e * (values[h] - v) : v;
   };
-  d3.shuffle = function(array) {
+  d3v3.shuffle = function(array) {
     var m = array.length, t, i;
     while (m) {
       i = Math.random() * m-- | 0;
@@ -242,12 +242,12 @@
     }
     return array;
   };
-  d3.transpose = function(matrix) {
-    return d3.zip.apply(d3, matrix);
+  d3v3.transpose = function(matrix) {
+    return d3v3.zip.apply(d3, matrix);
   };
-  d3.zip = function() {
+  d3v3.zip = function() {
     if (!(n = arguments.length)) return [];
-    for (var i = -1, m = d3.min(arguments, d3_zipLength), zips = new Array(m); ++i < m; ) {
+    for (var i = -1, m = d3v3.min(arguments, d3_zipLength), zips = new Array(m); ++i < m; ) {
       for (var j = -1, n, zip = zips[i] = new Array(n); ++j < n; ) {
         zip[j] = arguments[j][i];
       }
@@ -257,7 +257,7 @@
   function d3_zipLength(d) {
     return d.length;
   }
-  d3.bisector = function(f) {
+  d3v3.bisector = function(f) {
     return {
       left: function(a, x, lo, hi) {
         if (arguments.length < 3) lo = 0;
@@ -279,12 +279,12 @@
       }
     };
   };
-  var d3_bisector = d3.bisector(function(d) {
+  var d3_bisector = d3v3.bisector(function(d) {
     return d;
   });
-  d3.bisectLeft = d3_bisector.left;
-  d3.bisect = d3.bisectRight = d3_bisector.right;
-  d3.nest = function() {
+  d3v3.bisectLeft = d3_bisector.left;
+  d3v3.bisect = d3v3.bisectRight = d3_bisector.right;
+  d3v3.nest = function() {
     var nest = {}, keys = [], sortKeys = [], sortValues, rollup;
     function map(array, depth) {
       if (depth >= keys.length) return rollup ? rollup.call(nest, array) : sortValues ? array.sort(sortValues) : array;
@@ -339,17 +339,17 @@
     };
     return nest;
   };
-  d3.keys = function(map) {
+  d3v3.keys = function(map) {
     var keys = [];
     for (var key in map) keys.push(key);
     return keys;
   };
-  d3.values = function(map) {
+  d3v3.values = function(map) {
     var values = [];
     for (var key in map) values.push(map[key]);
     return values;
   };
-  d3.entries = function(map) {
+  d3v3.entries = function(map) {
     var entries = [];
     for (var key in map) entries.push({
       key: key,
@@ -357,18 +357,18 @@
     });
     return entries;
   };
-  d3.permute = function(array, indexes) {
+  d3v3.permute = function(array, indexes) {
     var permutes = [], i = -1, n = indexes.length;
     while (++i < n) permutes[i] = array[indexes[i]];
     return permutes;
   };
-  d3.merge = function(arrays) {
+  d3v3.merge = function(arrays) {
     return Array.prototype.concat.apply([], arrays);
   };
   function d3_collapse(s) {
     return s.trim().replace(/\s+/g, " ");
   }
-  d3.range = function(start, stop, step) {
+  d3v3.range = function(start, stop, step) {
     if (arguments.length < 3) {
       step = 1;
       if (arguments.length < 2) {
@@ -387,15 +387,15 @@
     while (x * k % 1) k *= 10;
     return k;
   }
-  d3.requote = function(s) {
+  d3v3.requote = function(s) {
     return s.replace(d3_requote_re, "\\$&");
   };
   var d3_requote_re = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
-  d3.round = function(x, n) {
+  d3v3.round = function(x, n) {
     return n ? Math.round(x * (n = Math.pow(10, n))) / n : Math.round(x);
   };
-  d3.xhr = function(url, mimeType, callback) {
-    var xhr = {}, dispatch = d3.dispatch("progress", "load", "error"), headers = {}, response = d3_identity, request = new (window.XDomainRequest && /^(http(s)?:)?\/\//.test(url) ? XDomainRequest : XMLHttpRequest)();
+  d3v3.xhr = function(url, mimeType, callback) {
+    var xhr = {}, dispatch = d3v3.dispatch("progress", "load", "error"), headers = {}, response = d3_identity, request = new (window.XDomainRequest && /^(http(s)?:)?\/\//.test(url) ? XDomainRequest : XMLHttpRequest)();
     "onload" in request ? request.onload = request.onerror = respond : request.onreadystatechange = function() {
       request.readyState > 3 && respond();
     };
@@ -404,12 +404,12 @@
       !s && request.responseText || s >= 200 && s < 300 || s === 304 ? dispatch.load.call(xhr, response.call(xhr, request)) : dispatch.error.call(xhr, request);
     }
     request.onprogress = function(event) {
-      var o = d3.event;
-      d3.event = event;
+      var o = d3v3.event;
+      d3v3.event = event;
       try {
         dispatch.progress.call(xhr, request);
       } finally {
-        d3.event = o;
+        d3v3.event = o;
       }
     };
     xhr.header = function(name, value) {
@@ -448,7 +448,7 @@
       request.abort();
       return xhr;
     };
-    d3.rebind(xhr, dispatch, "on");
+    d3v3.rebind(xhr, dispatch, "on");
     if (arguments.length === 2 && typeof mimeType === "function") callback = mimeType, 
     mimeType = null;
     return callback == null ? xhr : xhr.get(d3_xhr_fixCallback(callback));
@@ -458,28 +458,28 @@
       callback(error == null ? request : null);
     } : callback;
   }
-  d3.text = function() {
-    return d3.xhr.apply(d3, arguments).response(d3_text);
+  d3v3.text = function() {
+    return d3v3.xhr.apply(d3, arguments).response(d3_text);
   };
   function d3_text(request) {
     return request.responseText;
   }
-  d3.json = function(url, callback) {
-    return d3.xhr(url, "application/json", callback).response(d3_json);
+  d3v3.json = function(url, callback) {
+    return d3v3.xhr(url, "application/json", callback).response(d3_json);
   };
   function d3_json(request) {
     return JSON.parse(request.responseText);
   }
-  d3.html = function(url, callback) {
-    return d3.xhr(url, "text/html", callback).response(d3_html);
+  d3v3.html = function(url, callback) {
+    return d3v3.xhr(url, "text/html", callback).response(d3_html);
   };
   function d3_html(request) {
     var range = document.createRange();
     range.selectNode(document.body);
     return range.createContextualFragment(request.responseText);
   }
-  d3.xml = function() {
-    return d3.xhr.apply(d3, arguments).response(d3_xml);
+  d3v3.xml = function() {
+    return d3v3.xhr.apply(d3, arguments).response(d3_xml);
   };
   function d3_xml(request) {
     return request.responseXML;
@@ -491,7 +491,7 @@
     xml: "http://www.w3.org/XML/1998/namespace",
     xmlns: "http://www.w3.org/2000/xmlns/"
   };
-  d3.ns = {
+  d3v3.ns = {
     prefix: d3_nsPrefix,
     qualify: function(name) {
       var i = name.indexOf(":"), prefix = name;
@@ -505,7 +505,7 @@
       } : name;
     }
   };
-  d3.dispatch = function() {
+  d3v3.dispatch = function() {
     var dispatch = new d3_dispatch(), i = -1, n = arguments.length;
     while (++i < n) dispatch[arguments[i]] = d3_dispatch_event(dispatch);
     return dispatch;
@@ -541,7 +541,7 @@
     };
     return event;
   }
-  d3.format = function(specifier) {
+  d3v3.format = function(specifier) {
     var match = d3_format_re.exec(specifier), fill = match[1] || " ", align = match[2] || ">", sign = match[3] || "", basePrefix = match[4] || "", zfill = match[5], width = +match[6], comma = match[7], precision = match[8], type = match[9], scale = 1, suffix = "", integer = false;
     if (precision) precision = +precision.substring(1);
     if (zfill || fill === "0" && align === "=") {
@@ -592,7 +592,7 @@
       if (integer && value % 1) return "";
       var negative = value < 0 || value === 0 && 1 / value < 0 ? (value = -value, "-") : sign;
       if (scale < 0) {
-        var prefix = d3.formatPrefix(value, precision);
+        var prefix = d3v3.formatPrefix(value, precision);
         value = prefix.scale(value);
         suffix = prefix.symbol;
       } else {
@@ -608,7 +608,7 @@
     };
   };
   var d3_format_re = /(?:([^{])?([<>=^]))?([+\- ])?(#)?(0)?([0-9]+)?(,)?(\.[0-9]+)?([a-zA-Z%])?/;
-  var d3_format_types = d3.map({
+  var d3_format_types = d3v3.map({
     b: function(x) {
       return x.toString(2);
     },
@@ -634,7 +634,7 @@
       return x.toFixed(p);
     },
     r: function(x, p) {
-      return d3.round(x, p = d3_format_precision(x, p)).toFixed(Math.max(0, Math.min(20, p)));
+      return d3v3.round(x, p = d3_format_precision(x, p)).toFixed(Math.max(0, Math.min(20, p)));
     }
   });
   function d3_format_precision(x, p) {
@@ -657,11 +657,11 @@
     };
   }
   var d3_formatPrefixes = [ "y", "z", "a", "f", "p", "n", "μ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y" ].map(d3_formatPrefix);
-  d3.formatPrefix = function(value, precision) {
+  d3v3.formatPrefix = function(value, precision) {
     var i = 0;
     if (value) {
       if (value < 0) value *= -1;
-      if (precision) value = d3.round(value, d3_format_precision(value, precision));
+      if (precision) value = d3v3.round(value, d3_format_precision(value, precision));
       i = 1 + Math.floor(1e-12 + Math.log(value) / Math.LN10);
       i = Math.max(-24, Math.min(24, Math.floor((i <= 0 ? i + 1 : i - 1) / 3) * 3));
     }
@@ -681,7 +681,7 @@
   var d3_ease_default = function() {
     return d3_identity;
   };
-  var d3_ease = d3.map({
+  var d3_ease = d3v3.map({
     linear: d3_ease_default,
     poly: d3_ease_poly,
     quad: function() {
@@ -705,7 +705,7 @@
       return d3_ease_bounce;
     }
   });
-  var d3_ease_mode = d3.map({
+  var d3_ease_mode = d3v3.map({
     "in": d3_identity,
     out: d3_ease_reverse,
     "in-out": d3_ease_reflect,
@@ -713,7 +713,7 @@
       return d3_ease_reflect(d3_ease_reverse(f));
     }
   });
-  d3.ease = function(name) {
+  d3v3.ease = function(name) {
     var i = name.indexOf("-"), t = i >= 0 ? name.substring(0, i) : name, m = i >= 0 ? name.substring(i + 1) : "in";
     t = d3_ease.get(t) || d3_ease_default;
     m = d3_ease_mode.get(m) || d3_identity;
@@ -777,13 +777,13 @@
   function d3_ease_bounce(t) {
     return t < 1 / 2.75 ? 7.5625 * t * t : t < 2 / 2.75 ? 7.5625 * (t -= 1.5 / 2.75) * t + .75 : t < 2.5 / 2.75 ? 7.5625 * (t -= 2.25 / 2.75) * t + .9375 : 7.5625 * (t -= 2.625 / 2.75) * t + .984375;
   }
-  d3.event = null;
+  d3v3.event = null;
   function d3_eventCancel() {
-    d3.event.stopPropagation();
-    d3.event.preventDefault();
+    d3v3.event.stopPropagation();
+    d3v3.event.preventDefault();
   }
   function d3_eventSource() {
-    var e = d3.event, s;
+    var e = d3v3.event, s;
     while (s = e.sourceEvent) e = s;
     return e;
   }
@@ -793,20 +793,20 @@
     dispatch.of = function(thiz, argumentz) {
       return function(e1) {
         try {
-          var e0 = e1.sourceEvent = d3.event;
+          var e0 = e1.sourceEvent = d3v3.event;
           e1.target = target;
-          d3.event = e1;
+          d3v3.event = e1;
           dispatch[e1.type].apply(thiz, argumentz);
         } finally {
-          d3.event = e0;
+          d3v3.event = e0;
         }
       };
     };
     return dispatch;
   }
-  d3.transform = function(string) {
-    var g = document.createElementNS(d3.ns.prefix.svg, "g");
-    return (d3.transform = function(string) {
+  d3v3.transform = function(string) {
+    var g = document.createElementNS(d3v3.ns.prefix.svg, "g");
+    return (d3v3.transform = function(string) {
       g.setAttribute("transform", string);
       var t = g.transform.baseVal.consolidate();
       return new d3_transform(t ? t.matrix : d3_transformIdentity);
@@ -852,24 +852,24 @@
     e: 0,
     f: 0
   };
-  d3.interpolate = function(a, b) {
-    var i = d3.interpolators.length, f;
-    while (--i >= 0 && !(f = d3.interpolators[i](a, b))) ;
+  d3v3.interpolate = function(a, b) {
+    var i = d3v3.interpolators.length, f;
+    while (--i >= 0 && !(f = d3v3.interpolators[i](a, b))) ;
     return f;
   };
-  d3.interpolateNumber = function(a, b) {
+  d3v3.interpolateNumber = function(a, b) {
     b -= a;
     return function(t) {
       return a + b * t;
     };
   };
-  d3.interpolateRound = function(a, b) {
+  d3v3.interpolateRound = function(a, b) {
     b -= a;
     return function(t) {
       return Math.round(a + b * t);
     };
   };
-  d3.interpolateString = function(a, b) {
+  d3v3.interpolateString = function(a, b) {
     var m, i, j, s0 = 0, s1 = 0, s = [], q = [], n, o;
     d3_interpolate_number.lastIndex = 0;
     for (i = 0; m = d3_interpolate_number.exec(b); ++i) {
@@ -908,7 +908,7 @@
         n--;
         i--;
       } else {
-        o.x = d3.interpolateNumber(parseFloat(m[0]), parseFloat(o.x));
+        o.x = d3v3.interpolateNumber(parseFloat(m[0]), parseFloat(o.x));
       }
     }
     while (i < n) {
@@ -931,16 +931,16 @@
       return s.join("");
     };
   };
-  d3.interpolateTransform = function(a, b) {
-    var s = [], q = [], n, A = d3.transform(a), B = d3.transform(b), ta = A.translate, tb = B.translate, ra = A.rotate, rb = B.rotate, wa = A.skew, wb = B.skew, ka = A.scale, kb = B.scale;
+  d3v3.interpolateTransform = function(a, b) {
+    var s = [], q = [], n, A = d3v3.transform(a), B = d3v3.transform(b), ta = A.translate, tb = B.translate, ra = A.rotate, rb = B.rotate, wa = A.skew, wb = B.skew, ka = A.scale, kb = B.scale;
     if (ta[0] != tb[0] || ta[1] != tb[1]) {
       s.push("translate(", null, ",", null, ")");
       q.push({
         i: 1,
-        x: d3.interpolateNumber(ta[0], tb[0])
+        x: d3v3.interpolateNumber(ta[0], tb[0])
       }, {
         i: 3,
-        x: d3.interpolateNumber(ta[1], tb[1])
+        x: d3v3.interpolateNumber(ta[1], tb[1])
       });
     } else if (tb[0] || tb[1]) {
       s.push("translate(" + tb + ")");
@@ -951,7 +951,7 @@
       if (ra - rb > 180) rb += 360; else if (rb - ra > 180) ra += 360;
       q.push({
         i: s.push(s.pop() + "rotate(", null, ")") - 2,
-        x: d3.interpolateNumber(ra, rb)
+        x: d3v3.interpolateNumber(ra, rb)
       });
     } else if (rb) {
       s.push(s.pop() + "rotate(" + rb + ")");
@@ -959,7 +959,7 @@
     if (wa != wb) {
       q.push({
         i: s.push(s.pop() + "skewX(", null, ")") - 2,
-        x: d3.interpolateNumber(wa, wb)
+        x: d3v3.interpolateNumber(wa, wb)
       });
     } else if (wb) {
       s.push(s.pop() + "skewX(" + wb + ")");
@@ -968,10 +968,10 @@
       n = s.push(s.pop() + "scale(", null, ",", null, ")");
       q.push({
         i: n - 4,
-        x: d3.interpolateNumber(ka[0], kb[0])
+        x: d3v3.interpolateNumber(ka[0], kb[0])
       }, {
         i: n - 2,
-        x: d3.interpolateNumber(ka[1], kb[1])
+        x: d3v3.interpolateNumber(ka[1], kb[1])
       });
     } else if (kb[0] != 1 || kb[1] != 1) {
       s.push(s.pop() + "scale(" + kb + ")");
@@ -983,43 +983,43 @@
       return s.join("");
     };
   };
-  d3.interpolateRgb = function(a, b) {
-    a = d3.rgb(a);
-    b = d3.rgb(b);
+  d3v3.interpolateRgb = function(a, b) {
+    a = d3v3.rgb(a);
+    b = d3v3.rgb(b);
     var ar = a.r, ag = a.g, ab = a.b, br = b.r - ar, bg = b.g - ag, bb = b.b - ab;
     return function(t) {
       return "#" + d3_rgb_hex(Math.round(ar + br * t)) + d3_rgb_hex(Math.round(ag + bg * t)) + d3_rgb_hex(Math.round(ab + bb * t));
     };
   };
-  d3.interpolateHsl = function(a, b) {
-    a = d3.hsl(a);
-    b = d3.hsl(b);
+  d3v3.interpolateHsl = function(a, b) {
+    a = d3v3.hsl(a);
+    b = d3v3.hsl(b);
     var h0 = a.h, s0 = a.s, l0 = a.l, h1 = b.h - h0, s1 = b.s - s0, l1 = b.l - l0;
     if (h1 > 180) h1 -= 360; else if (h1 < -180) h1 += 360;
     return function(t) {
       return d3_hsl_rgb(h0 + h1 * t, s0 + s1 * t, l0 + l1 * t) + "";
     };
   };
-  d3.interpolateLab = function(a, b) {
-    a = d3.lab(a);
-    b = d3.lab(b);
+  d3v3.interpolateLab = function(a, b) {
+    a = d3v3.lab(a);
+    b = d3v3.lab(b);
     var al = a.l, aa = a.a, ab = a.b, bl = b.l - al, ba = b.a - aa, bb = b.b - ab;
     return function(t) {
       return d3_lab_rgb(al + bl * t, aa + ba * t, ab + bb * t) + "";
     };
   };
-  d3.interpolateHcl = function(a, b) {
-    a = d3.hcl(a);
-    b = d3.hcl(b);
+  d3v3.interpolateHcl = function(a, b) {
+    a = d3v3.hcl(a);
+    b = d3v3.hcl(b);
     var ah = a.h, ac = a.c, al = a.l, bh = b.h - ah, bc = b.c - ac, bl = b.l - al;
     if (bh > 180) bh -= 360; else if (bh < -180) bh += 360;
     return function(t) {
       return d3_hcl_lab(ah + bh * t, ac + bc * t, al + bl * t) + "";
     };
   };
-  d3.interpolateArray = function(a, b) {
+  d3v3.interpolateArray = function(a, b) {
     var x = [], c = [], na = a.length, nb = b.length, n0 = Math.min(a.length, b.length), i;
-    for (i = 0; i < n0; ++i) x.push(d3.interpolate(a[i], b[i]));
+    for (i = 0; i < n0; ++i) x.push(d3v3.interpolate(a[i], b[i]));
     for (;i < na; ++i) c[i] = a[i];
     for (;i < nb; ++i) c[i] = b[i];
     return function(t) {
@@ -1027,7 +1027,7 @@
       return c;
     };
   };
-  d3.interpolateObject = function(a, b) {
+  d3v3.interpolateObject = function(a, b) {
     var i = {}, c = {}, k;
     for (k in a) {
       if (k in b) {
@@ -1048,16 +1048,16 @@
   };
   var d3_interpolate_number = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g;
   function d3_interpolateByName(name) {
-    return name == "transform" ? d3.interpolateTransform : d3.interpolate;
+    return name == "transform" ? d3v3.interpolateTransform : d3v3.interpolate;
   }
-  d3.interpolators = [ d3.interpolateObject, function(a, b) {
-    return b instanceof Array && d3.interpolateArray(a, b);
+  d3v3.interpolators = [ d3v3.interpolateObject, function(a, b) {
+    return b instanceof Array && d3v3.interpolateArray(a, b);
   }, function(a, b) {
-    return (typeof a === "string" || typeof b === "string") && d3.interpolateString(a + "", b + "");
+    return (typeof a === "string" || typeof b === "string") && d3v3.interpolateString(a + "", b + "");
   }, function(a, b) {
-    return (typeof b === "string" ? d3_rgb_names.has(b) || /^(#|rgb\(|hsl\()/.test(b) : b instanceof d3_Color) && d3.interpolateRgb(a, b);
+    return (typeof b === "string" ? d3_rgb_names.has(b) || /^(#|rgb\(|hsl\()/.test(b) : b instanceof d3_Color) && d3v3.interpolateRgb(a, b);
   }, function(a, b) {
-    return !isNaN(a = +a) && !isNaN(b = +b) && d3.interpolateNumber(a, b);
+    return !isNaN(a = +a) && !isNaN(b = +b) && d3v3.interpolateNumber(a, b);
   } ];
   function d3_uninterpolateNumber(a, b) {
     b = b - (a = +a) ? 1 / (b - a) : 0;
@@ -1075,7 +1075,7 @@
   d3_Color.prototype.toString = function() {
     return this.rgb() + "";
   };
-  d3.rgb = function(r, g, b) {
+  d3v3.rgb = function(r, g, b) {
     return arguments.length === 1 ? r instanceof d3_Rgb ? d3_rgb(r.r, r.g, r.b) : d3_rgb_parse("" + r, d3_rgb, d3_hsl_rgb) : d3_rgb(~~r, ~~g, ~~b);
   };
   function d3_rgb(r, g, b) {
@@ -1171,7 +1171,7 @@
     var f = parseFloat(c);
     return c.charAt(c.length - 1) === "%" ? Math.round(f * 2.55) : f;
   }
-  var d3_rgb_names = d3.map({
+  var d3_rgb_names = d3v3.map({
     aliceblue: "#f0f8ff",
     antiquewhite: "#faebd7",
     aqua: "#00ffff",
@@ -1323,7 +1323,7 @@
   d3_rgb_names.forEach(function(key, value) {
     d3_rgb_names.set(key, d3_rgb_parse(value, d3_rgb, d3_hsl_rgb));
   });
-  d3.hsl = function(h, s, l) {
+  d3v3.hsl = function(h, s, l) {
     return arguments.length === 1 ? h instanceof d3_Hsl ? d3_hsl(h.h, h.s, h.l) : d3_rgb_parse("" + h, d3_rgb_hsl, d3_hsl) : d3_hsl(+h, +s, +l);
   };
   function d3_hsl(h, s, l) {
@@ -1366,8 +1366,8 @@
     }
     return d3_rgb(vv(h + 120), vv(h), vv(h - 120));
   }
-  d3.hcl = function(h, c, l) {
-    return arguments.length === 1 ? h instanceof d3_Hcl ? d3_hcl(h.h, h.c, h.l) : h instanceof d3_Lab ? d3_lab_hcl(h.l, h.a, h.b) : d3_lab_hcl((h = d3_rgb_lab((h = d3.rgb(h)).r, h.g, h.b)).l, h.a, h.b) : d3_hcl(+h, +c, +l);
+  d3v3.hcl = function(h, c, l) {
+    return arguments.length === 1 ? h instanceof d3_Hcl ? d3_hcl(h.h, h.c, h.l) : h instanceof d3_Lab ? d3_lab_hcl(h.l, h.a, h.b) : d3_lab_hcl((h = d3_rgb_lab((h = d3v3.rgb(h)).r, h.g, h.b)).l, h.a, h.b) : d3_hcl(+h, +c, +l);
   };
   function d3_hcl(h, c, l) {
     return new d3_Hcl(h, c, l);
@@ -1390,8 +1390,8 @@
   function d3_hcl_lab(h, c, l) {
     return d3_lab(l, Math.cos(h *= d3_radians) * c, Math.sin(h) * c);
   }
-  d3.lab = function(l, a, b) {
-    return arguments.length === 1 ? l instanceof d3_Lab ? d3_lab(l.l, l.a, l.b) : l instanceof d3_Hcl ? d3_hcl_lab(l.l, l.c, l.h) : d3_rgb_lab((l = d3.rgb(l)).r, l.g, l.b) : d3_lab(+l, +a, +b);
+  d3v3.lab = function(l, a, b) {
+    return arguments.length === 1 ? l instanceof d3_Lab ? d3_lab(l.l, l.a, l.b) : l instanceof d3_Hcl ? d3_hcl_lab(l.l, l.c, l.h) : d3_rgb_lab((l = d3v3.rgb(l)).r, l.g, l.b) : d3_lab(+l, +a, +b);
   };
   function d3_lab(l, a, b) {
     return new d3_Lab(l, a, b);
@@ -1453,10 +1453,10 @@
     d3_selectMatches = Sizzle.matchesSelector;
   }
   var d3_selectionPrototype = [];
-  d3.selection = function() {
+  d3v3.selection = function() {
     return d3_selectionRoot;
   };
-  d3.selection.prototype = d3_selectionPrototype;
+  d3v3.selection.prototype = d3_selectionPrototype;
   d3_selectionPrototype.select = function(selector) {
     var subgroups = [], subgroup, subnode, group, node;
     if (typeof selector !== "function") selector = d3_selection_selector(selector);
@@ -1501,7 +1501,7 @@
     if (arguments.length < 2) {
       if (typeof name === "string") {
         var node = this.node();
-        name = d3.ns.qualify(name);
+        name = d3v3.ns.qualify(name);
         return name.local ? node.getAttributeNS(name.space, name.local) : node.getAttribute(name);
       }
       for (value in name) this.each(d3_selection_attr(value, name[value]));
@@ -1510,7 +1510,7 @@
     return this.each(d3_selection_attr(name, value));
   };
   function d3_selection_attr(name, value) {
-    name = d3.ns.qualify(name);
+    name = d3v3.ns.qualify(name);
     function attrNull() {
       this.removeAttribute(name);
     }
@@ -1552,7 +1552,7 @@
     return this.each(d3_selection_classed(name, value));
   };
   function d3_selection_classedRe(name) {
-    return new RegExp("(?:^|\\s+)" + d3.requote(name) + "(?:\\s+|$)", "g");
+    return new RegExp("(?:^|\\s+)" + d3v3.requote(name) + "(?:\\s+|$)", "g");
   }
   function d3_selection_classed(name, value) {
     name = name.trim().split(/\s+/).map(d3_selection_classedName);
@@ -1652,7 +1652,7 @@
     }) : this.node().innerHTML;
   };
   d3_selectionPrototype.append = function(name) {
-    name = d3.ns.qualify(name);
+    name = d3v3.ns.qualify(name);
     function append() {
       return this.appendChild(document.createElementNS(this.namespaceURI, name));
     }
@@ -1662,7 +1662,7 @@
     return this.select(name.local ? appendNS : append);
   };
   d3_selectionPrototype.insert = function(name, before) {
-    name = d3.ns.qualify(name);
+    name = d3v3.ns.qualify(name);
     function insert() {
       return this.insertBefore(document.createElementNS(this.namespaceURI, name), d3_select(before, this));
     }
@@ -1803,7 +1803,7 @@
     return this.order();
   };
   function d3_selection_sortComparator(comparator) {
-    if (!arguments.length) comparator = d3.ascending;
+    if (!arguments.length) comparator = d3v3.ascending;
     return function(a, b) {
       return comparator(a && a.__data__, b && b.__data__);
     };
@@ -1837,13 +1837,13 @@
       this.addEventListener(type, this[name] = wrapper, wrapper.$ = capture);
       wrapper._ = listener;
       function wrapper(e) {
-        var o = d3.event;
-        d3.event = e;
+        var o = d3v3.event;
+        d3v3.event = e;
         args[0] = node.__data__;
         try {
           listener.apply(node, args);
         } finally {
-          d3.event = o;
+          d3v3.event = o;
         }
       }
     }
@@ -1893,10 +1893,10 @@
   };
   var d3_selectionRoot = d3_selection([ [ document ] ]);
   d3_selectionRoot[0].parentNode = d3_selectRoot;
-  d3.select = function(selector) {
+  d3v3.select = function(selector) {
     return typeof selector === "string" ? d3_selectionRoot.select(selector) : d3_selection([ [ selector ] ]);
   };
-  d3.selectAll = function(selector) {
+  d3v3.selectAll = function(selector) {
     return typeof selector === "string" ? d3_selectionRoot.selectAll(selector) : d3_selection([ d3_array(selector) ]);
   };
   function d3_selection_enter(selection) {
@@ -1904,8 +1904,8 @@
     return selection;
   }
   var d3_selection_enterPrototype = [];
-  d3.selection.enter = d3_selection_enter;
-  d3.selection.enter.prototype = d3_selection_enterPrototype;
+  d3v3.selection.enter = d3_selection_enter;
+  d3v3.selection.enter.prototype = d3_selection_enterPrototype;
   d3_selection_enterPrototype.append = d3_selectionPrototype.append;
   d3_selection_enterPrototype.insert = d3_selectionPrototype.insert;
   d3_selection_enterPrototype.empty = d3_selectionPrototype.empty;
@@ -1940,10 +1940,10 @@
   d3_transitionPrototype.call = d3_selectionPrototype.call;
   d3_transitionPrototype.empty = d3_selectionPrototype.empty;
   d3_transitionPrototype.node = d3_selectionPrototype.node;
-  d3.transition = function(selection) {
+  d3v3.transition = function(selection) {
     return arguments.length ? d3_transitionInheritId ? selection.transition() : selection : d3_selectionRoot.transition();
   };
-  d3.transition.prototype = d3_transitionPrototype;
+  d3v3.transition.prototype = d3_transitionPrototype;
   function d3_transitionNode(node, i, id, inherit) {
     var lock = node.__transition__ || (node.__transition__ = {
       active: 0,
@@ -1953,16 +1953,16 @@
       var time = inherit.time;
       transition = lock[id] = {
         tween: new d3_Map(),
-        event: d3.dispatch("start", "end"),
+        event: d3v3.dispatch("start", "end"),
         time: time,
         ease: inherit.ease,
         delay: inherit.delay,
         duration: inherit.duration
       };
       ++lock.count;
-      d3.timer(function(elapsed) {
+      d3v3.timer(function(elapsed) {
         var d = node.__data__, ease = transition.ease, event = transition.event, delay = transition.delay, duration = transition.duration, tweened = [];
-        return delay <= elapsed ? start(elapsed) : d3.timer(start, delay, time), 1;
+        return delay <= elapsed ? start(elapsed) : d3v3.timer(start, delay, time), 1;
         function start(elapsed) {
           if (lock.active > id) return stop();
           lock.active = id;
@@ -1972,7 +1972,7 @@
               tweened.push(value);
             }
           });
-          if (!tick(elapsed)) d3.timer(tick, 0, time);
+          if (!tick(elapsed)) d3v3.timer(tick, 0, time);
           return 1;
         }
         function tick(elapsed) {
@@ -2048,7 +2048,7 @@
       for (value in nameNS) this.attr(value, nameNS[value]);
       return this;
     }
-    var interpolate = d3_interpolateByName(nameNS), name = d3.ns.qualify(nameNS);
+    var interpolate = d3_interpolateByName(nameNS), name = d3v3.ns.qualify(nameNS);
     function attrNull() {
       this.removeAttribute(name);
     }
@@ -2072,7 +2072,7 @@
     });
   };
   d3_transitionPrototype.attrTween = function(nameNS, tween) {
-    var name = d3.ns.qualify(nameNS);
+    var name = d3v3.ns.qualify(nameNS);
     function attrTween(d, i) {
       var f = tween.call(this, d, i, this.getAttribute(name));
       return f && function(t) {
@@ -2138,7 +2138,7 @@
   d3_transitionPrototype.ease = function(value) {
     var id = this.id;
     if (arguments.length < 1) return this.node().__transition__[id].ease;
-    if (typeof value !== "function") value = d3.ease.apply(d3, arguments);
+    if (typeof value !== "function") value = d3v3.ease.apply(d3, arguments);
     return d3_selection_each(this, function(node) {
       node.__transition__[id].ease = value;
     });
@@ -2210,7 +2210,7 @@
     }));
   }
   var d3_timer_id = 0, d3_timer_byId = {}, d3_timer_queue = null, d3_timer_interval, d3_timer_timeout;
-  d3.timer = function(callback, delay, then) {
+  d3v3.timer = function(callback, delay, then) {
     if (arguments.length < 3) {
       if (arguments.length < 2) delay = 0; else if (!isFinite(delay)) return;
       then = Date.now();
@@ -2250,7 +2250,7 @@
       d3_timer_frame(d3_timer_step);
     }
   }
-  d3.timer.flush = function() {
+  d3v3.timer.flush = function() {
     var elapsed, now = Date.now(), t1 = d3_timer_queue;
     while (t1) {
       elapsed = now - t1.then;
@@ -2275,7 +2275,7 @@
   var d3_timer_frame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
     setTimeout(callback, 17);
   };
-  d3.mouse = function(container) {
+  d3v3.mouse = function(container) {
     return d3_mousePoint(container, d3_eventSource());
   };
   var d3_mouse_bug44083 = /WebKit/.test(navigator.userAgent) ? -1 : 0;
@@ -2284,7 +2284,7 @@
     if (svg.createSVGPoint) {
       var point = svg.createSVGPoint();
       if (d3_mouse_bug44083 < 0 && (window.scrollX || window.scrollY)) {
-        svg = d3.select(document.body).append("svg").style("position", "absolute").style("top", 0).style("left", 0);
+        svg = d3v3.select(document.body).append("svg").style("position", "absolute").style("top", 0).style("left", 0);
         var ctm = svg[0][0].getScreenCTM();
         d3_mouse_bug44083 = !(ctm.f || ctm.e);
         svg.remove();
@@ -2302,7 +2302,7 @@
     var rect = container.getBoundingClientRect();
     return [ e.clientX - rect.left - container.clientLeft, e.clientY - rect.top - container.clientTop ];
   }
-  d3.touches = function(container, touches) {
+  d3v3.touches = function(container, touches) {
     if (arguments.length < 2) touches = d3_eventSource().touches;
     return touches ? d3_array(touches).map(function(touch) {
       var point = d3_mousePoint(container, touch);
@@ -2311,7 +2311,7 @@
     }) : [];
   };
   function d3_noop() {}
-  d3.scale = {};
+  d3v3.scale = {};
   function d3_scaleExtent(domain) {
     var start = domain[0], stop = domain[domain.length - 1];
     return start < stop ? [ start, stop ] : [ stop, start ];
@@ -2334,15 +2334,15 @@
   function d3_scale_niceDefault() {
     return Math;
   }
-  d3.scale.linear = function() {
-    return d3_scale_linear([ 0, 1 ], [ 0, 1 ], d3.interpolate, false);
+  d3v3.scale.linear = function() {
+    return d3_scale_linear([ 0, 1 ], [ 0, 1 ], d3v3.interpolate, false);
   };
   function d3_scale_linear(domain, range, interpolate, clamp) {
     var output, input;
     function rescale() {
       var linear = Math.min(domain.length, range.length) > 2 ? d3_scale_polylinear : d3_scale_bilinear, uninterpolate = clamp ? d3_uninterpolateClamp : d3_uninterpolateNumber;
       output = linear(domain, range, uninterpolate, interpolate);
-      input = linear(range, domain, uninterpolate, d3.interpolate);
+      input = linear(range, domain, uninterpolate, d3v3.interpolate);
       return scale;
     }
     function scale(x) {
@@ -2362,7 +2362,7 @@
       return rescale();
     };
     scale.rangeRound = function(x) {
-      return scale.range(x).interpolate(d3.interpolateRound);
+      return scale.range(x).interpolate(d3v3.interpolateRound);
     };
     scale.clamp = function(x) {
       if (!arguments.length) return clamp;
@@ -2390,7 +2390,7 @@
     return rescale();
   }
   function d3_scale_linearRebind(scale, linear) {
-    return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp");
+    return d3v3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp");
   }
   function d3_scale_linearNice(dx) {
     dx = Math.pow(10, Math.round(Math.log(dx) / Math.LN10) - 1);
@@ -2412,10 +2412,10 @@
     return extent;
   }
   function d3_scale_linearTicks(domain, m) {
-    return d3.range.apply(d3, d3_scale_linearTickRange(domain, m));
+    return d3v3.range.apply(d3, d3_scale_linearTickRange(domain, m));
   }
   function d3_scale_linearTickFormat(domain, m) {
-    return d3.format(",." + Math.max(0, -Math.floor(Math.log(d3_scale_linearTickRange(domain, m)[2]) / Math.LN10 + .01)) + "f");
+    return d3v3.format(",." + Math.max(0, -Math.floor(Math.log(d3_scale_linearTickRange(domain, m)[2]) / Math.LN10 + .01)) + "f");
   }
   function d3_scale_bilinear(domain, range, uninterpolate, interpolate) {
     var u = uninterpolate(domain[0], domain[1]), i = interpolate(range[0], range[1]);
@@ -2434,12 +2434,12 @@
       i.push(interpolate(range[j - 1], range[j]));
     }
     return function(x) {
-      var j = d3.bisect(domain, x, 1, k) - 1;
+      var j = d3v3.bisect(domain, x, 1, k) - 1;
       return i[j](u[j](x));
     };
   }
-  d3.scale.log = function() {
-    return d3_scale_log(d3.scale.linear(), d3_scale_logp);
+  d3v3.scale.log = function() {
+    return d3_scale_log(d3v3.scale.linear(), d3_scale_logp);
   };
   function d3_scale_log(linear, log) {
     var pow = log.pow;
@@ -2491,7 +2491,7 @@
     };
     return d3_scale_linearRebind(scale, linear);
   }
-  var d3_scale_logFormat = d3.format(".0e");
+  var d3_scale_logFormat = d3v3.format(".0e");
   function d3_scale_logp(x) {
     return Math.log(x < 0 ? 0 : x) / Math.LN10;
   }
@@ -2504,8 +2504,8 @@
   d3_scale_logn.pow = function(x) {
     return -Math.pow(10, -x);
   };
-  d3.scale.pow = function() {
-    return d3_scale_pow(d3.scale.linear(), 1);
+  d3v3.scale.pow = function() {
+    return d3_scale_pow(d3v3.scale.linear(), 1);
   };
   function d3_scale_pow(linear, exponent) {
     var powp = d3_scale_powPow(exponent), powb = d3_scale_powPow(1 / exponent);
@@ -2546,10 +2546,10 @@
       return x < 0 ? -Math.pow(-x, e) : Math.pow(x, e);
     };
   }
-  d3.scale.sqrt = function() {
-    return d3.scale.pow().exponent(.5);
+  d3v3.scale.sqrt = function() {
+    return d3v3.scale.pow().exponent(.5);
   };
-  d3.scale.ordinal = function() {
+  d3v3.scale.ordinal = function() {
     return d3_scale_ordinal([], {
       t: "range",
       a: [ [] ]
@@ -2561,7 +2561,7 @@
       return range[((index.get(x) || index.set(x, domain.push(x))) - 1) % range.length];
     }
     function steps(start, step) {
-      return d3.range(domain.length).map(function(i) {
+      return d3v3.range(domain.length).map(function(i) {
         return start + step * i;
       });
     }
@@ -2631,23 +2631,23 @@
     };
     return scale.domain(domain);
   }
-  d3.scale.category10 = function() {
-    return d3.scale.ordinal().range(d3_category10);
+  d3v3.scale.category10 = function() {
+    return d3v3.scale.ordinal().range(d3_category10);
   };
-  d3.scale.category20 = function() {
-    return d3.scale.ordinal().range(d3_category20);
+  d3v3.scale.category20 = function() {
+    return d3v3.scale.ordinal().range(d3_category20);
   };
-  d3.scale.category20b = function() {
-    return d3.scale.ordinal().range(d3_category20b);
+  d3v3.scale.category20b = function() {
+    return d3v3.scale.ordinal().range(d3_category20b);
   };
-  d3.scale.category20c = function() {
-    return d3.scale.ordinal().range(d3_category20c);
+  d3v3.scale.category20c = function() {
+    return d3v3.scale.ordinal().range(d3_category20c);
   };
   var d3_category10 = [ "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf" ];
   var d3_category20 = [ "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5", "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5" ];
   var d3_category20b = [ "#393b79", "#5254a3", "#6b6ecf", "#9c9ede", "#637939", "#8ca252", "#b5cf6b", "#cedb9c", "#8c6d31", "#bd9e39", "#e7ba52", "#e7cb94", "#843c39", "#ad494a", "#d6616b", "#e7969c", "#7b4173", "#a55194", "#ce6dbd", "#de9ed6" ];
   var d3_category20c = [ "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9" ];
-  d3.scale.quantile = function() {
+  d3v3.scale.quantile = function() {
     return d3_scale_quantile([], []);
   };
   function d3_scale_quantile(domain, range) {
@@ -2655,18 +2655,18 @@
     function rescale() {
       var k = 0, q = range.length;
       thresholds = [];
-      while (++k < q) thresholds[k - 1] = d3.quantile(domain, k / q);
+      while (++k < q) thresholds[k - 1] = d3v3.quantile(domain, k / q);
       return scale;
     }
     function scale(x) {
       if (isNaN(x = +x)) return NaN;
-      return range[d3.bisect(thresholds, x)];
+      return range[d3v3.bisect(thresholds, x)];
     }
     scale.domain = function(x) {
       if (!arguments.length) return domain;
       domain = x.filter(function(d) {
         return !isNaN(d);
-      }).sort(d3.ascending);
+      }).sort(d3v3.ascending);
       return rescale();
     };
     scale.range = function(x) {
@@ -2682,7 +2682,7 @@
     };
     return rescale();
   }
-  d3.scale.quantize = function() {
+  d3v3.scale.quantize = function() {
     return d3_scale_quantize(0, 1, [ 0, 1 ]);
   };
   function d3_scale_quantize(x0, x1, range) {
@@ -2711,12 +2711,12 @@
     };
     return rescale();
   }
-  d3.scale.threshold = function() {
+  d3v3.scale.threshold = function() {
     return d3_scale_threshold([ .5 ], [ 0, 1 ]);
   };
   function d3_scale_threshold(domain, range) {
     function scale(x) {
-      return range[d3.bisect(domain, x)];
+      return range[d3v3.bisect(domain, x)];
     }
     scale.domain = function(_) {
       if (!arguments.length) return domain;
@@ -2733,7 +2733,7 @@
     };
     return scale;
   }
-  d3.scale.identity = function() {
+  d3v3.scale.identity = function() {
     return d3_scale_identity([ 0, 1 ]);
   };
   function d3_scale_identity(domain) {
@@ -2757,8 +2757,8 @@
     };
     return identity;
   }
-  d3.svg = {};
-  d3.svg.arc = function() {
+  d3v3.svg = {};
+  d3v3.svg.arc = function() {
     var innerRadius = d3_svg_arcInnerRadius, outerRadius = d3_svg_arcOuterRadius, startAngle = d3_svg_arcStartAngle, endAngle = d3_svg_arcEndAngle;
     function arc() {
       var r0 = innerRadius.apply(this, arguments), r1 = outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) + d3_svg_arcOffset, a1 = endAngle.apply(this, arguments) + d3_svg_arcOffset, da = (a1 < a0 && (da = a0, 
@@ -2849,7 +2849,7 @@
     };
     return line;
   }
-  d3.svg.line = function() {
+  d3v3.svg.line = function() {
     return d3_svg_line(d3_identity);
   };
   function d3_svg_lineX(d) {
@@ -2858,7 +2858,7 @@
   function d3_svg_lineY(d) {
     return d[1];
   }
-  var d3_svg_lineInterpolators = d3.map({
+  var d3_svg_lineInterpolators = d3v3.map({
     linear: d3_svg_lineLinear,
     "linear-closed": d3_svg_lineLinearClosed,
     "step-before": d3_svg_lineStepBefore,
@@ -3058,7 +3058,7 @@
   function d3_svg_lineMonotone(points) {
     return points.length < 3 ? d3_svg_lineLinear(points) : points[0] + d3_svg_lineHermite(points, d3_svg_lineMonotoneTangents(points));
   }
-  d3.svg.line.radial = function() {
+  d3v3.svg.line.radial = function() {
     var line = d3_svg_line(d3_svg_lineRadial);
     line.radius = line.x, delete line.x;
     line.angle = line.y, delete line.y;
@@ -3150,10 +3150,10 @@
   }
   d3_svg_lineStepBefore.reverse = d3_svg_lineStepAfter;
   d3_svg_lineStepAfter.reverse = d3_svg_lineStepBefore;
-  d3.svg.area = function() {
+  d3v3.svg.area = function() {
     return d3_svg_area(d3_identity);
   };
-  d3.svg.area.radial = function() {
+  d3v3.svg.area.radial = function() {
     var area = d3_svg_area(d3_svg_lineRadial);
     area.radius = area.x, delete area.x;
     area.innerRadius = area.x0, delete area.x0;
@@ -3163,7 +3163,7 @@
     area.endAngle = area.y1, delete area.y1;
     return area;
   };
-  d3.svg.chord = function() {
+  d3v3.svg.chord = function() {
     var source = d3_source, target = d3_target, radius = d3_svg_chordRadius, startAngle = d3_svg_arcStartAngle, endAngle = d3_svg_arcEndAngle;
     function chord(d, i) {
       var s = subgroup(this, source, d, i), t = subgroup(this, target, d, i);
@@ -3218,7 +3218,7 @@
   function d3_svg_chordRadius(d) {
     return d.radius;
   }
-  d3.svg.diagonal = function() {
+  d3v3.svg.diagonal = function() {
     var source = d3_source, target = d3_target, projection = d3_svg_diagonalProjection;
     function diagonal(d, i) {
       var p0 = source.call(this, d, i), p3 = target.call(this, d, i), m = (p0.y + p3.y) / 2, p = [ p0, {
@@ -3251,8 +3251,8 @@
   function d3_svg_diagonalProjection(d) {
     return [ d.x, d.y ];
   }
-  d3.svg.diagonal.radial = function() {
-    var diagonal = d3.svg.diagonal(), projection = d3_svg_diagonalProjection, projection_ = diagonal.projection;
+  d3v3.svg.diagonal.radial = function() {
+    var diagonal = d3v3.svg.diagonal(), projection = d3_svg_diagonalProjection, projection_ = diagonal.projection;
     diagonal.projection = function(x) {
       return arguments.length ? projection_(d3_svg_diagonalRadialProjection(projection = x)) : projection;
     };
@@ -3264,7 +3264,7 @@
       return [ r * Math.cos(a), r * Math.sin(a) ];
     };
   }
-  d3.svg.symbol = function() {
+  d3v3.svg.symbol = function() {
     var type = d3_svg_symbolType, size = d3_svg_symbolSize;
     function symbol(d, i) {
       return (d3_svg_symbols.get(type.call(this, d, i)) || d3_svg_symbolCircle)(size.call(this, d, i));
@@ -3291,7 +3291,7 @@
     var r = Math.sqrt(size / π);
     return "M0," + r + "A" + r + "," + r + " 0 1,1 0," + -r + "A" + r + "," + r + " 0 1,1 0," + r + "Z";
   }
-  var d3_svg_symbols = d3.map({
+  var d3_svg_symbols = d3v3.map({
     circle: d3_svg_symbolCircle,
     cross: function(size) {
       var r = Math.sqrt(size / 5) / 2;
@@ -3314,17 +3314,17 @@
       return "M0," + -ry + "L" + rx + "," + ry + " " + -rx + "," + ry + "Z";
     }
   });
-  d3.svg.symbolTypes = d3_svg_symbols.keys();
+  d3v3.svg.symbolTypes = d3_svg_symbols.keys();
   var d3_svg_symbolSqrt3 = Math.sqrt(3), d3_svg_symbolTan30 = Math.tan(30 * d3_radians);
-  d3.svg.axis = function() {
-    var scale = d3.scale.linear(), orient = "bottom", tickMajorSize = 6, tickMinorSize = 6, tickEndSize = 6, tickPadding = 3, tickArguments_ = [ 10 ], tickValues = null, tickFormat_, tickSubdivide = 0;
+  d3v3.svg.axis = function() {
+    var scale = d3v3.scale.linear(), orient = "bottom", tickMajorSize = 6, tickMinorSize = 6, tickEndSize = 6, tickPadding = 3, tickArguments_ = [ 10 ], tickValues = null, tickFormat_, tickSubdivide = 0;
     function axis(g) {
       g.each(function() {
-        var g = d3.select(this);
+        var g = d3v3.select(this);
         var ticks = tickValues == null ? scale.ticks ? scale.ticks.apply(scale, tickArguments_) : scale.domain() : tickValues, tickFormat = tickFormat_ == null ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments_) : String : tickFormat_;
-        var subticks = d3_svg_axisSubdivide(scale, ticks, tickSubdivide), subtick = g.selectAll(".minor").data(subticks, String), subtickEnter = subtick.enter().insert("line", "g").attr("class", "tick minor").style("opacity", 1e-6), subtickExit = d3.transition(subtick.exit()).style("opacity", 1e-6).remove(), subtickUpdate = d3.transition(subtick).style("opacity", 1);
-        var tick = g.selectAll("g").data(ticks, String), tickEnter = tick.enter().insert("g", "path").style("opacity", 1e-6), tickExit = d3.transition(tick.exit()).style("opacity", 1e-6).remove(), tickUpdate = d3.transition(tick).style("opacity", 1), tickTransform;
-        var range = d3_scaleRange(scale), path = g.selectAll(".domain").data([ 0 ]), pathUpdate = d3.transition(path);
+        var subticks = d3_svg_axisSubdivide(scale, ticks, tickSubdivide), subtick = g.selectAll(".minor").data(subticks, String), subtickEnter = subtick.enter().insert("line", "g").attr("class", "tick minor").style("opacity", 1e-6), subtickExit = d3v3.transition(subtick.exit()).style("opacity", 1e-6).remove(), subtickUpdate = d3v3.transition(subtick).style("opacity", 1);
+        var tick = g.selectAll("g").data(ticks, String), tickEnter = tick.enter().insert("g", "path").style("opacity", 1e-6), tickExit = d3v3.transition(tick.exit()).style("opacity", 1e-6).remove(), tickUpdate = d3v3.transition(tick).style("opacity", 1), tickTransform;
+        var range = d3_scaleRange(scale), path = g.selectAll(".domain").data([ 0 ]), pathUpdate = d3v3.transition(path);
         var scale1 = scale.copy(), scale0 = this.__chart__ || scale1;
         this.__chart__ = scale1;
         path.enter().append("path").attr("class", "domain");
@@ -3476,11 +3476,11 @@
     }
     return subticks;
   }
-  d3.svg.brush = function() {
+  d3v3.svg.brush = function() {
     var event = d3_eventDispatch(brush, "brushstart", "brush", "brushend"), x = null, y = null, resizes = d3_svg_brushResizes[0], extent = [ [ 0, 0 ], [ 0, 0 ] ], extentDomain;
     function brush(g) {
       g.each(function() {
-        var g = d3.select(this), bg = g.selectAll(".background").data([ 0 ]), fg = g.selectAll(".extent").data([ 0 ]), tz = g.selectAll(".resize").data(resizes, String), e;
+        var g = d3v3.select(this), bg = g.selectAll(".background").data([ 0 ]), fg = g.selectAll(".extent").data([ 0 ]), tz = g.selectAll(".resize").data(resizes, String), e;
         g.style("pointer-events", "all").on("mousedown.brush", brushstart).on("touchstart.brush", brushstart);
         bg.enter().append("rect").attr("class", "background").style("visibility", "hidden").style("cursor", "crosshair");
         fg.enter().append("rect").attr("class", "extent").style("cursor", "move");
@@ -3522,8 +3522,8 @@
       g.selectAll(".extent,.e>rect,.w>rect").attr("height", extent[1][1] - extent[0][1]);
     }
     function brushstart() {
-      var target = this, eventTarget = d3.select(d3.event.target), event_ = event.of(target, arguments), g = d3.select(target), resizing = eventTarget.datum(), resizingX = !/^(n|s)$/.test(resizing) && x, resizingY = !/^(e|w)$/.test(resizing) && y, dragging = eventTarget.classed("extent"), center, origin = mouse(), offset;
-      var w = d3.select(window).on("mousemove.brush", brushmove).on("mouseup.brush", brushend).on("touchmove.brush", brushmove).on("touchend.brush", brushend).on("keydown.brush", keydown).on("keyup.brush", keyup);
+      var target = this, eventTarget = d3v3.select(d3v3.event.target), event_ = event.of(target, arguments), g = d3v3.select(target), resizing = eventTarget.datum(), resizingX = !/^(n|s)$/.test(resizing) && x, resizingY = !/^(e|w)$/.test(resizing) && y, dragging = eventTarget.classed("extent"), center, origin = mouse(), offset;
+      var w = d3v3.select(window).on("mousemove.brush", brushmove).on("mouseup.brush", brushend).on("touchmove.brush", brushmove).on("touchend.brush", brushend).on("keydown.brush", keydown).on("keyup.brush", keyup);
       if (dragging) {
         origin[0] = extent[0][0] - origin[0];
         origin[1] = extent[0][1] - origin[1];
@@ -3532,20 +3532,20 @@
         offset = [ extent[1 - ex][0] - origin[0], extent[1 - ey][1] - origin[1] ];
         origin[0] = extent[ex][0];
         origin[1] = extent[ey][1];
-      } else if (d3.event.altKey) center = origin.slice();
+      } else if (d3v3.event.altKey) center = origin.slice();
       g.style("pointer-events", "none").selectAll(".resize").style("display", null);
-      d3.select("body").style("cursor", eventTarget.style("cursor"));
+      d3v3.select("body").style("cursor", eventTarget.style("cursor"));
       event_({
         type: "brushstart"
       });
       brushmove();
       d3_eventCancel();
       function mouse() {
-        var touches = d3.event.changedTouches;
-        return touches ? d3.touches(target, touches)[0] : d3.mouse(target);
+        var touches = d3v3.event.changedTouches;
+        return touches ? d3v3.touches(target, touches)[0] : d3v3.mouse(target);
       }
       function keydown() {
-        if (d3.event.keyCode == 32) {
+        if (d3v3.event.keyCode == 32) {
           if (!dragging) {
             center = null;
             origin[0] -= extent[1][0];
@@ -3556,7 +3556,7 @@
         }
       }
       function keyup() {
-        if (d3.event.keyCode == 32 && dragging == 2) {
+        if (d3v3.event.keyCode == 32 && dragging == 2) {
           origin[0] += extent[1][0];
           origin[1] += extent[1][1];
           dragging = 0;
@@ -3570,7 +3570,7 @@
           point[1] += offset[1];
         }
         if (!dragging) {
-          if (d3.event.altKey) {
+          if (d3v3.event.altKey) {
             if (!center) center = [ (extent[0][0] + extent[1][0]) / 2, (extent[0][1] + extent[1][1]) / 2 ];
             origin[0] = extent[+(point[0] < center[0])][0];
             origin[1] = extent[+(point[1] < center[1])][1];
@@ -3620,7 +3620,7 @@
       function brushend() {
         brushmove();
         g.style("pointer-events", "all").selectAll(".resize").style("display", brush.empty() ? "none" : null);
-        d3.select("body").style("cursor", null);
+        d3v3.select("body").style("cursor", null);
         w.on("mousemove.brush", null).on("mouseup.brush", null).on("touchmove.brush", null).on("touchend.brush", null).on("keydown.brush", null).on("keyup.brush", null);
         event_({
           type: "brushend"
@@ -3689,7 +3689,7 @@
     brush.empty = function() {
       return x && extent[0][0] === extent[1][0] || y && extent[0][1] === extent[1][1];
     };
-    return d3.rebind(brush, event, "on");
+    return d3v3.rebind(brush, event, "on");
   };
   var d3_svg_brushCursor = {
     n: "ns-resize",
@@ -3702,15 +3702,15 @@
     sw: "nesw-resize"
   };
   var d3_svg_brushResizes = [ [ "n", "e", "s", "w", "nw", "ne", "se", "sw" ], [ "e", "w" ], [ "n", "s" ], [] ];
-  d3.behavior = {};
-  d3.behavior.drag = function() {
+  d3v3.behavior = {};
+  d3v3.behavior.drag = function() {
     var event = d3_eventDispatch(drag, "drag", "dragstart", "dragend"), origin = null;
     function drag() {
       this.on("mousedown.drag", mousedown).on("touchstart.drag", mousedown);
     }
     function mousedown() {
-      var target = this, event_ = event.of(target, arguments), eventTarget = d3.event.target, touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null, offset, origin_ = point(), moved = 0;
-      var w = d3.select(window).on(touchId != null ? "touchmove.drag-" + touchId : "mousemove.drag", dragmove).on(touchId != null ? "touchend.drag-" + touchId : "mouseup.drag", dragend, true);
+      var target = this, event_ = event.of(target, arguments), eventTarget = d3v3.event.target, touchId = d3v3.event.touches ? d3v3.event.changedTouches[0].identifier : null, offset, origin_ = point(), moved = 0;
+      var w = d3v3.select(window).on(touchId != null ? "touchmove.drag-" + touchId : "mousemove.drag", dragmove).on(touchId != null ? "touchend.drag-" + touchId : "mouseup.drag", dragend, true);
       if (origin) {
         offset = origin.apply(target, arguments);
         offset = [ offset.x - origin_[0], offset.y - origin_[1] ];
@@ -3723,9 +3723,9 @@
       });
       function point() {
         var p = target.parentNode;
-        return touchId != null ? d3.touches(p).filter(function(p) {
+        return touchId != null ? d3v3.touches(p).filter(function(p) {
           return p.identifier === touchId;
-        })[0] : d3.mouse(p);
+        })[0] : d3v3.mouse(p);
       }
       function dragmove() {
         if (!target.parentNode) return dragend();
@@ -3747,7 +3747,7 @@
         });
         if (moved) {
           d3_eventCancel();
-          if (d3.event.target === eventTarget) w.on("click.drag", click, true);
+          if (d3v3.event.target === eventTarget) w.on("click.drag", click, true);
         }
         w.on(touchId != null ? "touchmove.drag-" + touchId : "mousemove.drag", null).on(touchId != null ? "touchend.drag-" + touchId : "mouseup.drag", null);
       }
@@ -3761,9 +3761,9 @@
       origin = x;
       return drag;
     };
-    return d3.rebind(drag, event, "on");
+    return d3v3.rebind(drag, event, "on");
   };
-  d3.behavior.zoom = function() {
+  d3v3.behavior.zoom = function() {
     var translate = [ 0, 0 ], translate0, scale = 1, scale0, scaleExtent = d3_behavior_zoomInfinity, event = d3_eventDispatch(zoom, "zoom"), x0, x1, y0, y1, touchtime;
     function zoom() {
       this.on("mousedown.zoom", mousedown).on("mousewheel.zoom", mousewheel).on("mousemove.zoom", mousemove).on("DOMMouseScroll.zoom", mousewheel).on("dblclick.zoom", dblclick).on("touchstart.zoom", touchstart).on("touchmove.zoom", touchmove).on("touchend.zoom", touchstart);
@@ -3825,7 +3825,7 @@
     }
     function dispatch(event) {
       rescale();
-      d3.event.preventDefault();
+      d3v3.event.preventDefault();
       event({
         type: "zoom",
         scale: scale,
@@ -3833,18 +3833,18 @@
       });
     }
     function mousedown() {
-      var target = this, event_ = event.of(target, arguments), eventTarget = d3.event.target, moved = 0, w = d3.select(window).on("mousemove.zoom", mousemove).on("mouseup.zoom", mouseup), l = location(d3.mouse(target));
+      var target = this, event_ = event.of(target, arguments), eventTarget = d3v3.event.target, moved = 0, w = d3v3.select(window).on("mousemove.zoom", mousemove).on("mouseup.zoom", mouseup), l = location(d3v3.mouse(target));
       window.focus();
       d3_eventCancel();
       function mousemove() {
         moved = 1;
-        translateTo(d3.mouse(target), l);
+        translateTo(d3v3.mouse(target), l);
         dispatch(event_);
       }
       function mouseup() {
         if (moved) d3_eventCancel();
         w.on("mousemove.zoom", null).on("mouseup.zoom", null);
-        if (moved && d3.event.target === eventTarget) w.on("click.zoom", click, true);
+        if (moved && d3v3.event.target === eventTarget) w.on("click.zoom", click, true);
       }
       function click() {
         d3_eventCancel();
@@ -3852,22 +3852,22 @@
       }
     }
     function mousewheel() {
-      if (!translate0) translate0 = location(d3.mouse(this));
+      if (!translate0) translate0 = location(d3v3.mouse(this));
       scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * scale);
-      translateTo(d3.mouse(this), translate0);
+      translateTo(d3v3.mouse(this), translate0);
       dispatch(event.of(this, arguments));
     }
     function mousemove() {
       translate0 = null;
     }
     function dblclick() {
-      var p = d3.mouse(this), l = location(p), k = Math.log(scale) / Math.LN2;
-      scaleTo(Math.pow(2, d3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1));
+      var p = d3v3.mouse(this), l = location(p), k = Math.log(scale) / Math.LN2;
+      scaleTo(Math.pow(2, d3v3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1));
       translateTo(p, l);
       dispatch(event.of(this, arguments));
     }
     function touchstart() {
-      var touches = d3.touches(this), now = Date.now();
+      var touches = d3v3.touches(this), now = Date.now();
       scale0 = scale;
       translate0 = {};
       touches.forEach(function(t) {
@@ -3885,25 +3885,25 @@
       }
     }
     function touchmove() {
-      var touches = d3.touches(this), p0 = touches[0], l0 = translate0[p0.identifier];
+      var touches = d3v3.touches(this), p0 = touches[0], l0 = translate0[p0.identifier];
       if (p1 = touches[1]) {
         var p1, l1 = translate0[p1.identifier];
         p0 = [ (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2 ];
         l0 = [ (l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2 ];
-        scaleTo(d3.event.scale * scale0);
+        scaleTo(d3v3.event.scale * scale0);
       }
       translateTo(p0, l0);
       touchtime = null;
       dispatch(event.of(this, arguments));
     }
-    return d3.rebind(zoom, event, "on");
+    return d3v3.rebind(zoom, event, "on");
   };
   var d3_behavior_zoomDiv, d3_behavior_zoomInfinity = [ 0, Infinity ];
   function d3_behavior_zoomDelta() {
     if (!d3_behavior_zoomDiv) {
-      d3_behavior_zoomDiv = d3.select("body").append("div").style("visibility", "hidden").style("top", 0).style("height", 0).style("width", 0).style("overflow-y", "scroll").append("div").style("height", "2000px").node().parentNode;
+      d3_behavior_zoomDiv = d3v3.select("body").append("div").style("visibility", "hidden").style("top", 0).style("height", 0).style("width", 0).style("overflow-y", "scroll").append("div").style("height", "2000px").node().parentNode;
     }
-    var e = d3.event, delta;
+    var e = d3v3.event, delta;
     try {
       d3_behavior_zoomDiv.scrollTop = 1e3;
       d3_behavior_zoomDiv.dispatchEvent(e);
@@ -3913,8 +3913,8 @@
     }
     return delta;
   }
-  d3.layout = {};
-  d3.layout.bundle = function() {
+  d3v3.layout = {};
+  d3v3.layout.bundle = function() {
     return function(links) {
       var paths = [], i = -1, n = links.length;
       while (++i < n) paths.push(d3_layout_bundlePath(links[i]));
@@ -3954,10 +3954,10 @@
     }
     return sharedNode;
   }
-  d3.layout.chord = function() {
+  d3v3.layout.chord = function() {
     var chord = {}, chords, groups, matrix, n, padding = 0, sortGroups, sortSubgroups, sortChords;
     function relayout() {
-      var subgroups = {}, groupSums = [], groupIndex = d3.range(n), subgroupIndex = [], k, x, x0, i, j;
+      var subgroups = {}, groupSums = [], groupIndex = d3v3.range(n), subgroupIndex = [], k, x, x0, i, j;
       chords = [];
       groups = [];
       k = 0, i = -1;
@@ -3967,7 +3967,7 @@
           x += matrix[i][j];
         }
         groupSums.push(x);
-        subgroupIndex.push(d3.range(n));
+        subgroupIndex.push(d3v3.range(n));
         k += x;
       }
       if (sortGroups) {
@@ -4067,8 +4067,8 @@
     };
     return chord;
   };
-  d3.layout.force = function() {
-    var force = {}, event = d3.dispatch("start", "tick", "end"), size = [ 1, 1 ], drag, alpha, friction = .9, linkDistance = d3_layout_forceLinkDistance, linkStrength = d3_layout_forceLinkStrength, charge = -30, gravity = .1, theta = .8, nodes = [], links = [], distances, strengths, charges;
+  d3v3.layout.force = function() {
+    var force = {}, event = d3v3.dispatch("start", "tick", "end"), size = [ 1, 1 ], drag, alpha, friction = .9, linkDistance = d3_layout_forceLinkDistance, linkStrength = d3_layout_forceLinkStrength, charge = -30, gravity = .1, theta = .8, nodes = [], links = [], distances, strengths, charges;
     function repulse(node) {
       return function(quad, x1, _, x2) {
         if (quad.point !== node) {
@@ -4124,7 +4124,7 @@
         }
       }
       if (charge) {
-        d3_layout_forceAccumulate(q = d3.geom.quadtree(nodes), alpha, charges);
+        d3_layout_forceAccumulate(q = d3v3.geom.quadtree(nodes), alpha, charges);
         i = -1;
         while (++i < n) {
           if (!(o = nodes[i]).fixed) {
@@ -4203,7 +4203,7 @@
           type: "start",
           alpha: alpha = x
         });
-        d3.timer(force.tick);
+        d3v3.timer(force.tick);
       }
       return force;
     };
@@ -4269,14 +4269,14 @@
       return force.alpha(0);
     };
     force.drag = function() {
-      if (!drag) drag = d3.behavior.drag().origin(d3_identity).on("dragstart", d3_layout_forceDragstart).on("drag", dragmove).on("dragend", d3_layout_forceDragend);
+      if (!drag) drag = d3v3.behavior.drag().origin(d3_identity).on("dragstart", d3_layout_forceDragstart).on("drag", dragmove).on("dragend", d3_layout_forceDragend);
       this.on("mouseover.force", d3_layout_forceMouseover).on("mouseout.force", d3_layout_forceMouseout).call(drag);
     };
     function dragmove(d) {
-      d.px = d3.event.x, d.py = d3.event.y;
+      d.px = d3v3.event.x, d.py = d3v3.event.y;
       force.resume();
     }
-    return d3.rebind(force, event, "on");
+    return d3v3.rebind(force, event, "on");
   };
   function d3_layout_forceDragstart(d) {
     d.fixed |= 2;
@@ -4324,8 +4324,8 @@
   function d3_layout_forceLinkStrength() {
     return 1;
   }
-  d3.layout.partition = function() {
-    var hierarchy = d3.layout.hierarchy(), size = [ 1, 1 ];
+  d3v3.layout.partition = function() {
+    var hierarchy = d3v3.layout.hierarchy(), size = [ 1, 1 ];
     function position(node, x, dx, dy) {
       var children = node.children;
       node.x = x;
@@ -4361,15 +4361,15 @@
     };
     return d3_layout_hierarchyRebind(partition, hierarchy);
   };
-  d3.layout.pie = function() {
+  d3v3.layout.pie = function() {
     var value = Number, sort = d3_layout_pieSortByValue, startAngle = 0, endAngle = 2 * π;
     function pie(data) {
       var values = data.map(function(d, i) {
         return +value.call(pie, d, i);
       });
       var a = +(typeof startAngle === "function" ? startAngle.apply(this, arguments) : startAngle);
-      var k = ((typeof endAngle === "function" ? endAngle.apply(this, arguments) : endAngle) - startAngle) / d3.sum(values);
-      var index = d3.range(data.length);
+      var k = ((typeof endAngle === "function" ? endAngle.apply(this, arguments) : endAngle) - startAngle) / d3v3.sum(values);
+      var index = d3v3.range(data.length);
       if (sort != null) index.sort(sort === d3_layout_pieSortByValue ? function(i, j) {
         return values[j] - values[i];
       } : function(i, j) {
@@ -4410,7 +4410,7 @@
     return pie;
   };
   var d3_layout_pieSortByValue = {};
-  d3.layout.stack = function() {
+  d3v3.layout.stack = function() {
     var values = d3_identity, order = d3_layout_stackOrderDefault, offset = d3_layout_stackOffsetZero, out = d3_layout_stackOut, x = d3_layout_stackX, y = d3_layout_stackY;
     function stack(data, index) {
       var series = data.map(function(d, i) {
@@ -4422,8 +4422,8 @@
         });
       });
       var orders = order.call(stack, points, index);
-      series = d3.permute(series, orders);
-      points = d3.permute(points, orders);
+      series = d3v3.permute(series, orders);
+      points = d3v3.permute(points, orders);
       var offsets = offset.call(stack, points, index);
       var n = series.length, m = series[0].length, i, j, o;
       for (j = 0; j < m; ++j) {
@@ -4476,9 +4476,9 @@
     d.y0 = y0;
     d.y = y;
   }
-  var d3_layout_stackOrders = d3.map({
+  var d3_layout_stackOrders = d3v3.map({
     "inside-out": function(data) {
-      var n = data.length, i, j, max = data.map(d3_layout_stackMaxIndex), sums = data.map(d3_layout_stackReduceSum), index = d3.range(n).sort(function(a, b) {
+      var n = data.length, i, j, max = data.map(d3_layout_stackMaxIndex), sums = data.map(d3_layout_stackReduceSum), index = d3v3.range(n).sort(function(a, b) {
         return max[a] - max[b];
       }), top = 0, bottom = 0, tops = [], bottoms = [];
       for (i = 0; i < n; ++i) {
@@ -4494,11 +4494,11 @@
       return bottoms.reverse().concat(tops);
     },
     reverse: function(data) {
-      return d3.range(data.length).reverse();
+      return d3v3.range(data.length).reverse();
     },
     "default": d3_layout_stackOrderDefault
   });
-  var d3_layout_stackOffsets = d3.map({
+  var d3_layout_stackOffsets = d3v3.map({
     silhouette: function(data) {
       var n = data.length, m = data[0].length, sums = [], max = 0, i, j, o, y0 = [];
       for (j = 0; j < m; ++j) {
@@ -4540,7 +4540,7 @@
     zero: d3_layout_stackOffsetZero
   });
   function d3_layout_stackOrderDefault(data) {
-    return d3.range(data.length);
+    return d3v3.range(data.length);
   }
   function d3_layout_stackOffsetZero(data) {
     var j = -1, m = data[0].length, y0 = [];
@@ -4563,7 +4563,7 @@
   function d3_layout_stackSum(p, d) {
     return p + d[1];
   }
-  d3.layout.histogram = function() {
+  d3v3.layout.histogram = function() {
     var frequency = true, valuer = Number, ranger = d3_layout_histogramRange, binner = d3_layout_histogramBinSturges;
     function histogram(data, i) {
       var bins = [], values = data.map(valuer, this), range = ranger.call(this, values, i), thresholds = binner.call(this, range, values, i), bin, i = -1, n = values.length, m = thresholds.length - 1, k = frequency ? 1 : 1 / n, x;
@@ -4577,7 +4577,7 @@
         while (++i < n) {
           x = values[i];
           if (x >= range[0] && x <= range[1]) {
-            bin = bins[d3.bisect(thresholds, x, 1, m) - 1];
+            bin = bins[d3v3.bisect(thresholds, x, 1, m) - 1];
             bin.y += k;
             bin.push(data[i]);
           }
@@ -4618,9 +4618,9 @@
     return f;
   }
   function d3_layout_histogramRange(values) {
-    return [ d3.min(values), d3.max(values) ];
+    return [ d3v3.min(values), d3v3.max(values) ];
   }
-  d3.layout.hierarchy = function() {
+  d3v3.layout.hierarchy = function() {
     var sort = d3_layout_hierarchySort, children = d3_layout_hierarchyChildren, value = d3_layout_hierarchyValue;
     function recurse(node, depth, nodes) {
       var childs = children.call(hierarchy, node, depth);
@@ -4679,7 +4679,7 @@
     return hierarchy;
   };
   function d3_layout_hierarchyRebind(object, hierarchy) {
-    d3.rebind(object, hierarchy, "sort", "children", "value");
+    d3v3.rebind(object, hierarchy, "sort", "children", "value");
     object.nodes = object;
     object.links = d3_layout_hierarchyLinks;
     return object;
@@ -4694,7 +4694,7 @@
     return b.value - a.value;
   }
   function d3_layout_hierarchyLinks(nodes) {
-    return d3.merge(nodes.map(function(parent) {
+    return d3v3.merge(nodes.map(function(parent) {
       return (parent.children || []).map(function(child) {
         return {
           source: parent,
@@ -4703,8 +4703,8 @@
       });
     }));
   }
-  d3.layout.pack = function() {
-    var hierarchy = d3.layout.hierarchy().sort(d3_layout_packSort), padding = 0, size = [ 1, 1 ];
+  d3v3.layout.pack = function() {
+    var hierarchy = d3v3.layout.hierarchy().sort(d3_layout_packSort), padding = 0, size = [ 1, 1 ];
     function pack(d, i) {
       var nodes = hierarchy.call(this, d, i), root = nodes[0];
       root.x = 0;
@@ -4853,8 +4853,8 @@
       c.y = a.y;
     }
   }
-  d3.layout.cluster = function() {
-    var hierarchy = d3.layout.hierarchy().sort(null).value(null), separation = d3_layout_treeSeparation, size = [ 1, 1 ];
+  d3v3.layout.cluster = function() {
+    var hierarchy = d3v3.layout.hierarchy().sort(null).value(null), separation = d3_layout_treeSeparation, size = [ 1, 1 ];
     function cluster(d, i) {
       var nodes = hierarchy.call(this, d, i), root = nodes[0], previousNode, x = 0;
       d3_layout_treeVisitAfter(root, function(node) {
@@ -4888,7 +4888,7 @@
     return d3_layout_hierarchyRebind(cluster, hierarchy);
   };
   function d3_layout_clusterY(children) {
-    return 1 + d3.max(children, function(child) {
+    return 1 + d3v3.max(children, function(child) {
       return child.y;
     });
   }
@@ -4905,8 +4905,8 @@
     var children = node.children, n;
     return children && (n = children.length) ? d3_layout_clusterRight(children[n - 1]) : node;
   }
-  d3.layout.tree = function() {
-    var hierarchy = d3.layout.hierarchy().sort(null).value(null), separation = d3_layout_treeSeparation, size = [ 1, 1 ];
+  d3v3.layout.tree = function() {
+    var hierarchy = d3v3.layout.hierarchy().sort(null).value(null), separation = d3_layout_treeSeparation, size = [ 1, 1 ];
     function tree(d, i) {
       var nodes = hierarchy.call(this, d, i), root = nodes[0];
       function firstWalk(node, previousSibling) {
@@ -5075,8 +5075,8 @@
   function d3_layout_treeAncestor(vim, node, ancestor) {
     return vim._tree.ancestor.parent == node.parent ? vim._tree.ancestor : ancestor;
   }
-  d3.layout.treemap = function() {
-    var hierarchy = d3.layout.hierarchy(), round = Math.round, size = [ 1, 1 ], padding = null, pad = d3_layout_treemapPadNull, sticky = false, stickies, mode = "squarify", ratio = .5 * (1 + Math.sqrt(5));
+  d3v3.layout.treemap = function() {
+    var hierarchy = d3v3.layout.hierarchy(), round = Math.round, size = [ 1, 1 ], padding = null, pad = d3_layout_treemapPadNull, sticky = false, stickies, mode = "squarify", ratio = .5 * (1 + Math.sqrt(5));
     function scale(children, k) {
       var i = -1, n = children.length, child, area;
       while (++i < n) {
@@ -5251,7 +5251,7 @@
   function d3_dsv(delimiter, mimeType) {
     var reFormat = new RegExp('["' + delimiter + "\n]"), delimiterCode = delimiter.charCodeAt(0);
     function dsv(url, callback) {
-      return d3.xhr(url, mimeType, callback).response(response);
+      return d3v3.xhr(url, mimeType, callback).response(response);
     }
     function response(request) {
       return dsv.parse(request.responseText);
@@ -5321,10 +5321,10 @@
     }
     return dsv;
   }
-  d3.csv = d3_dsv(",", "text/csv");
-  d3.tsv = d3_dsv("	", "text/tab-separated-values");
-  d3.geo = {};
-  d3.geo.stream = function(object, listener) {
+  d3v3.csv = d3_dsv(",", "text/csv");
+  d3v3.tsv = d3_dsv("	", "text/tab-separated-values");
+  d3v3.geo = {};
+  d3v3.geo.stream = function(object, listener) {
     if (d3_geo_streamObjectType.hasOwnProperty(object.type)) {
       d3_geo_streamObjectType[object.type](object, listener);
     } else {
@@ -5486,11 +5486,11 @@
     };
     return resample;
   }
-  d3.geo.albersUsa = function() {
-    var lower48 = d3.geo.albers();
-    var alaska = d3.geo.albers().rotate([ 160, 0 ]).center([ 0, 60 ]).parallels([ 55, 65 ]);
-    var hawaii = d3.geo.albers().rotate([ 160, 0 ]).center([ 0, 20 ]).parallels([ 8, 18 ]);
-    var puertoRico = d3.geo.albers().rotate([ 60, 0 ]).center([ 0, 10 ]).parallels([ 8, 18 ]);
+  d3v3.geo.albersUsa = function() {
+    var lower48 = d3v3.geo.albers();
+    var alaska = d3v3.geo.albers().rotate([ 160, 0 ]).center([ 0, 60 ]).parallels([ 55, 65 ]);
+    var hawaii = d3v3.geo.albers().rotate([ 160, 0 ]).center([ 0, 20 ]).parallels([ 8, 18 ]);
+    var puertoRico = d3v3.geo.albers().rotate([ 60, 0 ]).center([ 0, 10 ]).parallels([ 8, 18 ]);
     function albersUsa(coordinates) {
       return projection(coordinates)(coordinates);
     }
@@ -5529,7 +5529,7 @@
     };
     return albers;
   }
-  (d3.geo.albers = function() {
+  (d3v3.geo.albers = function() {
     var φ0 = 29.5 * d3_radians, φ1 = 45.5 * d3_radians, m = d3_geo_projectionMutator(d3_geo_albers), p = m(φ0, φ1);
     p.parallels = function(_) {
       if (!arguments.length) return [ φ0 * d3_degrees, φ1 * d3_degrees ];
@@ -5542,17 +5542,17 @@
   }, function(ρ) {
     return 2 * Math.asin(ρ / 2);
   });
-  (d3.geo.azimuthalEqualArea = function() {
+  (d3v3.geo.azimuthalEqualArea = function() {
     return d3_geo_projection(d3_geo_azimuthalEqualArea);
   }).raw = d3_geo_azimuthalEqualArea;
   var d3_geo_azimuthalEquidistant = d3_geo_azimuthal(function(cosλcosφ) {
     var c = Math.acos(cosλcosφ);
     return c && c / Math.sin(c);
   }, d3_identity);
-  (d3.geo.azimuthalEquidistant = function() {
+  (d3v3.geo.azimuthalEquidistant = function() {
     return d3_geo_projection(d3_geo_azimuthalEquidistant);
   }).raw = d3_geo_azimuthalEquidistant;
-  d3.geo.bounds = d3_geo_bounds(d3_identity);
+  d3v3.geo.bounds = d3_geo_bounds(d3_identity);
   function d3_geo_bounds(projectStream) {
     var x0, y0, x1, y1;
     var bound = {
@@ -5577,13 +5577,13 @@
     }
     return function(feature) {
       y1 = x1 = -(x0 = y0 = Infinity);
-      d3.geo.stream(feature, projectStream(bound));
+      d3v3.geo.stream(feature, projectStream(bound));
       return [ [ x0, y0 ], [ x1, y1 ] ];
     };
   }
-  d3.geo.centroid = function(object) {
+  d3v3.geo.centroid = function(object) {
     d3_geo_centroidDimension = d3_geo_centroidW = d3_geo_centroidX = d3_geo_centroidY = d3_geo_centroidZ = 0;
-    d3.geo.stream(object, d3_geo_centroid);
+    d3v3.geo.stream(object, d3_geo_centroid);
     var m;
     if (d3_geo_centroidW && Math.abs(m = Math.sqrt(d3_geo_centroidX * d3_geo_centroidX + d3_geo_centroidY * d3_geo_centroidY + d3_geo_centroidZ * d3_geo_centroidZ)) > ε) {
       return [ Math.atan2(d3_geo_centroidY, d3_geo_centroidX) * d3_degrees, Math.asin(Math.max(-1, Math.min(1, d3_geo_centroidZ / m))) * d3_degrees ];
@@ -5662,7 +5662,7 @@
   function d3_geo_centroidLineEnd() {
     d3_geo_centroid.point = d3_geo_centroidPoint;
   }
-  d3.geo.circle = function() {
+  d3v3.geo.circle = function() {
     var origin = [ 0, 0 ], angle, precision = 6, interpolate;
     function circle() {
       var center = typeof origin === "function" ? origin.apply(this, arguments) : origin, rotate = d3_geo_rotation(-center[0] * d3_radians, -center[1] * d3_radians, 0).invert, ring = [];
@@ -5738,7 +5738,7 @@
           clip.point = point;
           clip.lineStart = lineStart;
           clip.lineEnd = lineEnd;
-          segments = d3.merge(segments);
+          segments = d3v3.merge(segments);
           if (segments.length) {
             d3_geo_clipPolygon(segments, interpolate, listener);
           } else if (visibleArea < -ε || invisible && invisibleArea < -ε) {
@@ -6074,16 +6074,16 @@
   function d3_geo_equirectangular(λ, φ) {
     return [ λ, φ ];
   }
-  (d3.geo.equirectangular = function() {
+  (d3v3.geo.equirectangular = function() {
     return d3_geo_projection(d3_geo_equirectangular).scale(250 / π);
   }).raw = d3_geo_equirectangular.invert = d3_geo_equirectangular;
   var d3_geo_gnomonic = d3_geo_azimuthal(function(cosλcosφ) {
     return 1 / cosλcosφ;
   }, Math.atan);
-  (d3.geo.gnomonic = function() {
+  (d3v3.geo.gnomonic = function() {
     return d3_geo_projection(d3_geo_gnomonic);
   }).raw = d3_geo_gnomonic;
-  d3.geo.graticule = function() {
+  d3v3.geo.graticule = function() {
     var x1, x0, y1, y0, dx = 22.5, dy = dx, x, y, precision = 2.5;
     function graticule() {
       return {
@@ -6092,7 +6092,7 @@
       };
     }
     function lines() {
-      return d3.range(Math.ceil(x0 / dx) * dx, x1, dx).map(x).concat(d3.range(Math.ceil(y0 / dy) * dy, y1, dy).map(y));
+      return d3v3.range(Math.ceil(x0 / dx) * dx, x1, dx).map(x).concat(d3v3.range(Math.ceil(y0 / dy) * dy, y1, dy).map(y));
     }
     graticule.lines = function() {
       return lines().map(function(coordinates) {
@@ -6131,7 +6131,7 @@
     return graticule.extent([ [ -180 + ε, -90 + ε ], [ 180 - ε, 90 - ε ] ]);
   };
   function d3_geo_graticuleX(y0, y1, dy) {
-    var y = d3.range(y0, y1 - ε, dy).concat(y1);
+    var y = d3v3.range(y0, y1 - ε, dy).concat(y1);
     return function(x) {
       return y.map(function(y) {
         return [ x, y ];
@@ -6139,14 +6139,14 @@
     };
   }
   function d3_geo_graticuleY(x0, x1, dx) {
-    var x = d3.range(x0, x1 - ε, dx).concat(x1);
+    var x = d3v3.range(x0, x1 - ε, dx).concat(x1);
     return function(y) {
       return x.map(function(x) {
         return [ x, y ];
       });
     };
   }
-  d3.geo.interpolate = function(source, target) {
+  d3v3.geo.interpolate = function(source, target) {
     return d3_geo_interpolate(source[0] * d3_radians, source[1] * d3_radians, target[0] * d3_radians, target[1] * d3_radians);
   };
   function d3_geo_interpolate(x0, y0, x1, y1) {
@@ -6158,10 +6158,10 @@
     interpolate.distance = d;
     return interpolate;
   }
-  d3.geo.greatArc = function() {
+  d3v3.geo.greatArc = function() {
     var source = d3_source, source_, target = d3_target, target_, precision = 6 * d3_radians, interpolate;
     function greatArc() {
-      var p0 = source_ || source.apply(this, arguments), p1 = target_ || target.apply(this, arguments), i = interpolate || d3.geo.interpolate(p0, p1), t = 0, dt = precision / i.distance, coordinates = [ p0 ];
+      var p0 = source_ || source.apply(this, arguments), p1 = target_ || target.apply(this, arguments), i = interpolate || d3v3.geo.interpolate(p0, p1), t = 0, dt = precision / i.distance, coordinates = [ p0 ];
       while ((t += dt) < 1) coordinates.push(i(t));
       coordinates.push(p1);
       return {
@@ -6170,18 +6170,18 @@
       };
     }
     greatArc.distance = function() {
-      return (interpolate || d3.geo.interpolate(source_ || source.apply(this, arguments), target_ || target.apply(this, arguments))).distance;
+      return (interpolate || d3v3.geo.interpolate(source_ || source.apply(this, arguments), target_ || target.apply(this, arguments))).distance;
     };
     greatArc.source = function(_) {
       if (!arguments.length) return source;
       source = _, source_ = typeof _ === "function" ? null : _;
-      interpolate = source_ && target_ ? d3.geo.interpolate(source_, target_) : null;
+      interpolate = source_ && target_ ? d3v3.geo.interpolate(source_, target_) : null;
       return greatArc;
     };
     greatArc.target = function(_) {
       if (!arguments.length) return target;
       target = _, target_ = typeof _ === "function" ? null : _;
-      interpolate = source_ && target_ ? d3.geo.interpolate(source_, target_) : null;
+      interpolate = source_ && target_ ? d3v3.geo.interpolate(source_, target_) : null;
       return greatArc;
     };
     greatArc.precision = function(_) {
@@ -6197,29 +6197,29 @@
   d3_geo_mercator.invert = function(x, y) {
     return [ 2 * π * x, 2 * Math.atan(Math.exp(2 * π * y)) - π / 2 ];
   };
-  (d3.geo.mercator = function() {
+  (d3v3.geo.mercator = function() {
     return d3_geo_projection(d3_geo_mercator).scale(500);
   }).raw = d3_geo_mercator;
   var d3_geo_orthographic = d3_geo_azimuthal(function() {
     return 1;
   }, Math.asin);
-  (d3.geo.orthographic = function() {
+  (d3v3.geo.orthographic = function() {
     return d3_geo_projection(d3_geo_orthographic);
   }).raw = d3_geo_orthographic;
-  d3.geo.path = function() {
+  d3v3.geo.path = function() {
     var pointRadius = 4.5, projection, context, projectStream, contextStream;
     function path(object) {
-      if (object) d3.geo.stream(object, projectStream(contextStream.pointRadius(typeof pointRadius === "function" ? +pointRadius.apply(this, arguments) : pointRadius)));
+      if (object) d3v3.geo.stream(object, projectStream(contextStream.pointRadius(typeof pointRadius === "function" ? +pointRadius.apply(this, arguments) : pointRadius)));
       return contextStream.result();
     }
     path.area = function(object) {
       d3_geo_pathAreaSum = 0;
-      d3.geo.stream(object, projectStream(d3_geo_pathArea));
+      d3v3.geo.stream(object, projectStream(d3_geo_pathArea));
       return d3_geo_pathAreaSum;
     };
     path.centroid = function(object) {
       d3_geo_centroidDimension = d3_geo_centroidX = d3_geo_centroidY = d3_geo_centroidZ = 0;
-      d3.geo.stream(object, projectStream(d3_geo_pathCentroid));
+      d3v3.geo.stream(object, projectStream(d3_geo_pathCentroid));
       return d3_geo_centroidZ ? [ d3_geo_centroidX / d3_geo_centroidZ, d3_geo_centroidY / d3_geo_centroidZ ] : undefined;
     };
     path.bounds = function(object) {
@@ -6240,7 +6240,7 @@
       pointRadius = typeof _ === "function" ? _ : +_;
       return path;
     };
-    return path.projection(d3.geo.albersUsa()).context(null);
+    return path.projection(d3v3.geo.albersUsa()).context(null);
   };
   function d3_geo_pathCircle(radius) {
     return "m0," + radius + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius + "a" + radius + "," + radius + " 0 1,1 0," + +2 * radius + "z";
@@ -6448,9 +6448,9 @@
       nextPoint(x00, y00);
     };
   }
-  d3.geo.area = function(object) {
+  d3v3.geo.area = function(object) {
     d3_geo_areaSum = 0;
-    d3.geo.stream(object, d3_geo_area);
+    d3v3.geo.stream(object, d3_geo_area);
     return d3_geo_areaSum;
   };
   var d3_geo_areaSum, d3_geo_areaRing;
@@ -6491,8 +6491,8 @@
       nextPoint(λ00, φ00);
     };
   }
-  d3.geo.projection = d3_geo_projection;
-  d3.geo.projectionMutator = d3_geo_projectionMutator;
+  d3v3.geo.projection = d3_geo_projection;
+  d3v3.geo.projectionMutator = d3_geo_projectionMutator;
   function d3_geo_projection(project) {
     return d3_geo_projectionMutator(function() {
       return project;
@@ -6543,7 +6543,7 @@
       δγ = _.length > 2 ? _[2] % 360 * d3_radians : 0;
       return reset();
     };
-    d3.rebind(projection, projectResample, "precision");
+    d3v3.rebind(projection, projectResample, "precision");
     function reset() {
       projectRotate = d3_geo_compose(rotate = d3_geo_rotation(δλ, δφ, δγ), project);
       var center = project(λ, φ);
@@ -6610,7 +6610,7 @@
   }, function(ρ) {
     return 2 * Math.atan(ρ);
   });
-  (d3.geo.stereographic = function() {
+  (d3v3.geo.stereographic = function() {
     return d3_geo_projection(d3_geo_stereographic);
   }).raw = d3_geo_stereographic;
   function d3_geo_azimuthal(scale, angle) {
@@ -6624,8 +6624,8 @@
     };
     return azimuthal;
   }
-  d3.geom = {};
-  d3.geom.hull = function(vertices) {
+  d3v3.geom = {};
+  d3v3.geom.hull = function(vertices) {
     if (vertices.length < 3) return [];
     var len = vertices.length, plen = len - 1, points = [], stack = [], i, j, h = 0, x1, y1, x2, y2, u, v, a, sp;
     for (i = 1; i < len; ++i) {
@@ -6705,7 +6705,7 @@
     f = t[1];
     return (f - b) * (c - a) - (d - b) * (e - a) > 0;
   }
-  d3.geom.polygon = function(coordinates) {
+  d3v3.geom.polygon = function(coordinates) {
     coordinates.area = function() {
       var i = 0, n = coordinates.length, area = coordinates[n - 1][1] * coordinates[0][0] - coordinates[n - 1][0] * coordinates[0][1];
       while (++i < n) {
@@ -6758,7 +6758,7 @@
     var x1 = c[0], x3 = a[0], x21 = d[0] - x1, x43 = b[0] - x3, y1 = c[1], y3 = a[1], y21 = d[1] - y1, y43 = b[1] - y3, ua = (x43 * (y1 - y3) - y43 * (x1 - x3)) / (y43 * x21 - x43 * y21);
     return [ x1 + ua * x21, y1 + ua * y21 ];
   }
-  d3.geom.voronoi = function(vertices) {
+  d3v3.geom.voronoi = function(vertices) {
     var polygons = vertices.map(function() {
       return [];
     }), Z = 1e6;
@@ -6790,7 +6790,7 @@
       var cx = vertices[i][0], cy = vertices[i][1], angle = polygon.map(function(v) {
         return Math.atan2(v[0] - cx, v[1] - cy);
       });
-      return d3.range(polygon.length).sort(function(a, b) {
+      return d3v3.range(polygon.length).sort(function(a, b) {
         return angle[a] - angle[b];
       }).filter(function(d, i, order) {
         return !i || angle[d] - angle[order[i - 1]] > ε;
@@ -7095,7 +7095,7 @@
       callback(lbnd.edge);
     }
   }
-  d3.geom.delaunay = function(vertices) {
+  d3v3.geom.delaunay = function(vertices) {
     var edges = vertices.map(function() {
       return [];
     }), triangles = [];
@@ -7116,7 +7116,7 @@
     });
     return triangles;
   };
-  d3.geom.quadtree = function(points, x1, y1, x2, y2) {
+  d3v3.geom.quadtree = function(points, x1, y1, x2, y2) {
     var p, i = -1, n = points.length;
     if (arguments.length < 5) {
       if (arguments.length === 3) {
@@ -7190,7 +7190,7 @@
       if (children[3]) d3_geom_quadtreeVisit(f, children[3], sx, sy, x2, y2);
     }
   }
-  d3.time = {};
+  d3v3.time = {};
   var d3_time = Date, d3_time_daySymbols = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ];
   function d3_time_utc() {
     this._ = new Date(arguments.length > 1 ? Date.UTC.apply(this, arguments) : arguments[0]);
@@ -7260,7 +7260,7 @@
   var d3_time_prototype = Date.prototype;
   var d3_time_formatDateTime = "%a %b %e %X %Y", d3_time_formatDate = "%m/%d/%Y", d3_time_formatTime = "%H:%M:%S";
   var d3_time_days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ], d3_time_dayAbbreviations = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ], d3_time_months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ], d3_time_monthAbbreviations = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-  d3.time.format = function(template) {
+  d3v3.time.format = function(template) {
     var n = template.length;
     function format(date) {
       var string = [], i = -1, j = 0, c, p, f;
@@ -7313,7 +7313,7 @@
     return j;
   }
   function d3_time_formatRe(names) {
-    return new RegExp("^(?:" + names.map(d3.requote).join("|") + ")", "i");
+    return new RegExp("^(?:" + names.map(d3v3.requote).join("|") + ")", "i");
   }
   function d3_time_formatLookup(names) {
     var map = new d3_Map(), i = -1, n = names.length;
@@ -7344,7 +7344,7 @@
     B: function(d) {
       return d3_time_months[d.getMonth()];
     },
-    c: d3.time.format(d3_time_formatDateTime),
+    c: d3v3.time.format(d3_time_formatDateTime),
     d: function(d, p) {
       return d3_time_formatPad(d.getDate(), p, 2);
     },
@@ -7358,7 +7358,7 @@
       return d3_time_formatPad(d.getHours() % 12 || 12, p, 2);
     },
     j: function(d, p) {
-      return d3_time_formatPad(1 + d3.time.dayOfYear(d), p, 3);
+      return d3_time_formatPad(1 + d3v3.time.dayOfYear(d), p, 3);
     },
     L: function(d, p) {
       return d3_time_formatPad(d.getMilliseconds(), p, 3);
@@ -7376,16 +7376,16 @@
       return d3_time_formatPad(d.getSeconds(), p, 2);
     },
     U: function(d, p) {
-      return d3_time_formatPad(d3.time.sundayOfYear(d), p, 2);
+      return d3_time_formatPad(d3v3.time.sundayOfYear(d), p, 2);
     },
     w: function(d) {
       return d.getDay();
     },
     W: function(d, p) {
-      return d3_time_formatPad(d3.time.mondayOfYear(d), p, 2);
+      return d3_time_formatPad(d3v3.time.mondayOfYear(d), p, 2);
     },
-    x: d3.time.format(d3_time_formatDate),
-    X: d3.time.format(d3_time_formatTime),
+    x: d3v3.time.format(d3_time_formatDate),
+    X: d3v3.time.format(d3_time_formatTime),
     y: function(d, p) {
       return d3_time_formatPad(d.getFullYear() % 100, p, 2);
     },
@@ -7494,7 +7494,7 @@
     var n = d3_time_amPmLookup.get(string.substring(i, i += 2).toLowerCase());
     return n == null ? -1 : (date.p = n, i);
   }
-  var d3_time_amPmLookup = d3.map({
+  var d3_time_amPmLookup = d3v3.map({
     am: 0,
     pm: 1
   });
@@ -7502,8 +7502,8 @@
     var z = d.getTimezoneOffset(), zs = z > 0 ? "-" : "+", zh = ~~(Math.abs(z) / 60), zm = Math.abs(z) % 60;
     return zs + d3_time_formatPad(zh, "0", 2) + d3_time_formatPad(zm, "0", 2);
   }
-  d3.time.format.utc = function(template) {
-    var local = d3.time.format(template);
+  d3v3.time.format.utc = function(template) {
+    var local = d3v3.time.format(template);
     function format(date) {
       try {
         d3_time = d3_time_utc;
@@ -7526,8 +7526,8 @@
     format.toString = local.toString;
     return format;
   };
-  var d3_time_formatIso = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-  d3.time.format.iso = Date.prototype.toISOString ? d3_time_formatIsoNative : d3_time_formatIso;
+  var d3_time_formatIso = d3v3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
+  d3v3.time.format.iso = Date.prototype.toISOString ? d3_time_formatIsoNative : d3_time_formatIso;
   function d3_time_formatIsoNative(date) {
     return date.toISOString();
   }
@@ -7596,25 +7596,25 @@
       }
     };
   }
-  d3.time.second = d3_time_interval(function(date) {
+  d3v3.time.second = d3_time_interval(function(date) {
     return new d3_time(Math.floor(date / 1e3) * 1e3);
   }, function(date, offset) {
     date.setTime(date.getTime() + Math.floor(offset) * 1e3);
   }, function(date) {
     return date.getSeconds();
   });
-  d3.time.seconds = d3.time.second.range;
-  d3.time.seconds.utc = d3.time.second.utc.range;
-  d3.time.minute = d3_time_interval(function(date) {
+  d3v3.time.seconds = d3v3.time.second.range;
+  d3v3.time.seconds.utc = d3v3.time.second.utc.range;
+  d3v3.time.minute = d3_time_interval(function(date) {
     return new d3_time(Math.floor(date / 6e4) * 6e4);
   }, function(date, offset) {
     date.setTime(date.getTime() + Math.floor(offset) * 6e4);
   }, function(date) {
     return date.getMinutes();
   });
-  d3.time.minutes = d3.time.minute.range;
-  d3.time.minutes.utc = d3.time.minute.utc.range;
-  d3.time.hour = d3_time_interval(function(date) {
+  d3v3.time.minutes = d3v3.time.minute.range;
+  d3v3.time.minutes.utc = d3v3.time.minute.utc.range;
+  d3v3.time.hour = d3_time_interval(function(date) {
     var timezone = date.getTimezoneOffset() / 60;
     return new d3_time((Math.floor(date / 36e5 - timezone) + timezone) * 36e5);
   }, function(date, offset) {
@@ -7622,9 +7622,9 @@
   }, function(date) {
     return date.getHours();
   });
-  d3.time.hours = d3.time.hour.range;
-  d3.time.hours.utc = d3.time.hour.utc.range;
-  d3.time.day = d3_time_interval(function(date) {
+  d3v3.time.hours = d3v3.time.hour.range;
+  d3v3.time.hours.utc = d3v3.time.hour.utc.range;
+  d3v3.time.day = d3_time_interval(function(date) {
     var day = new d3_time(1970, 0);
     day.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
     return day;
@@ -7633,37 +7633,37 @@
   }, function(date) {
     return date.getDate() - 1;
   });
-  d3.time.days = d3.time.day.range;
-  d3.time.days.utc = d3.time.day.utc.range;
-  d3.time.dayOfYear = function(date) {
-    var year = d3.time.year(date);
+  d3v3.time.days = d3v3.time.day.range;
+  d3v3.time.days.utc = d3v3.time.day.utc.range;
+  d3v3.time.dayOfYear = function(date) {
+    var year = d3v3.time.year(date);
     return Math.floor((date - year - (date.getTimezoneOffset() - year.getTimezoneOffset()) * 6e4) / 864e5);
   };
   d3_time_daySymbols.forEach(function(day, i) {
     day = day.toLowerCase();
     i = 7 - i;
-    var interval = d3.time[day] = d3_time_interval(function(date) {
-      (date = d3.time.day(date)).setDate(date.getDate() - (date.getDay() + i) % 7);
+    var interval = d3v3.time[day] = d3_time_interval(function(date) {
+      (date = d3v3.time.day(date)).setDate(date.getDate() - (date.getDay() + i) % 7);
       return date;
     }, function(date, offset) {
       date.setDate(date.getDate() + Math.floor(offset) * 7);
     }, function(date) {
-      var day = d3.time.year(date).getDay();
-      return Math.floor((d3.time.dayOfYear(date) + (day + i) % 7) / 7) - (day !== i);
+      var day = d3v3.time.year(date).getDay();
+      return Math.floor((d3v3.time.dayOfYear(date) + (day + i) % 7) / 7) - (day !== i);
     });
-    d3.time[day + "s"] = interval.range;
-    d3.time[day + "s"].utc = interval.utc.range;
-    d3.time[day + "OfYear"] = function(date) {
-      var day = d3.time.year(date).getDay();
-      return Math.floor((d3.time.dayOfYear(date) + (day + i) % 7) / 7);
+    d3v3.time[day + "s"] = interval.range;
+    d3v3.time[day + "s"].utc = interval.utc.range;
+    d3v3.time[day + "OfYear"] = function(date) {
+      var day = d3v3.time.year(date).getDay();
+      return Math.floor((d3v3.time.dayOfYear(date) + (day + i) % 7) / 7);
     };
   });
-  d3.time.week = d3.time.sunday;
-  d3.time.weeks = d3.time.sunday.range;
-  d3.time.weeks.utc = d3.time.sunday.utc.range;
-  d3.time.weekOfYear = d3.time.sundayOfYear;
-  d3.time.month = d3_time_interval(function(date) {
-    date = d3.time.day(date);
+  d3v3.time.week = d3v3.time.sunday;
+  d3v3.time.weeks = d3v3.time.sunday.range;
+  d3v3.time.weeks.utc = d3v3.time.sunday.utc.range;
+  d3v3.time.weekOfYear = d3v3.time.sundayOfYear;
+  d3v3.time.month = d3_time_interval(function(date) {
+    date = d3v3.time.day(date);
     date.setDate(1);
     return date;
   }, function(date, offset) {
@@ -7671,10 +7671,10 @@
   }, function(date) {
     return date.getMonth();
   });
-  d3.time.months = d3.time.month.range;
-  d3.time.months.utc = d3.time.month.utc.range;
-  d3.time.year = d3_time_interval(function(date) {
-    date = d3.time.day(date);
+  d3v3.time.months = d3v3.time.month.range;
+  d3v3.time.months.utc = d3v3.time.month.utc.range;
+  d3v3.time.year = d3_time_interval(function(date) {
+    date = d3v3.time.day(date);
     date.setMonth(0, 1);
     return date;
   }, function(date, offset) {
@@ -7682,8 +7682,8 @@
   }, function(date) {
     return date.getFullYear();
   });
-  d3.time.years = d3.time.year.range;
-  d3.time.years.utc = d3.time.year.utc.range;
+  d3v3.time.years = d3v3.time.year.range;
+  d3v3.time.years.utc = d3v3.time.year.utc.range;
   function d3_time_scale(linear, methods, format) {
     function scale(x) {
       return linear(x);
@@ -7704,7 +7704,7 @@
     scale.ticks = function(m, k) {
       var extent = d3_time_scaleExtent(scale.domain());
       if (typeof m !== "function") {
-        var span = extent[1] - extent[0], target = span / m, i = d3.bisect(d3_time_scaleSteps, target);
+        var span = extent[1] - extent[0], target = span / m, i = d3v3.bisect(d3_time_scaleSteps, target);
         if (i == d3_time_scaleSteps.length) return methods.year(extent, m);
         if (!i) return linear.ticks(m).map(d3_time_scaleDate);
         if (Math.log(target / d3_time_scaleSteps[i - 1]) < Math.log(d3_time_scaleSteps[i] / target)) --i;
@@ -7720,7 +7720,7 @@
     scale.copy = function() {
       return d3_time_scale(linear.copy(), methods, format);
     };
-    return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp");
+    return d3v3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp");
   }
   function d3_time_scaleExtent(domain) {
     var start = domain[0], stop = domain[domain.length - 1];
@@ -7746,45 +7746,45 @@
     return y + (d - d0) / (d1 - d0);
   }
   var d3_time_scaleSteps = [ 1e3, 5e3, 15e3, 3e4, 6e4, 3e5, 9e5, 18e5, 36e5, 108e5, 216e5, 432e5, 864e5, 1728e5, 6048e5, 2592e6, 7776e6, 31536e6 ];
-  var d3_time_scaleLocalMethods = [ [ d3.time.second, 1 ], [ d3.time.second, 5 ], [ d3.time.second, 15 ], [ d3.time.second, 30 ], [ d3.time.minute, 1 ], [ d3.time.minute, 5 ], [ d3.time.minute, 15 ], [ d3.time.minute, 30 ], [ d3.time.hour, 1 ], [ d3.time.hour, 3 ], [ d3.time.hour, 6 ], [ d3.time.hour, 12 ], [ d3.time.day, 1 ], [ d3.time.day, 2 ], [ d3.time.week, 1 ], [ d3.time.month, 1 ], [ d3.time.month, 3 ], [ d3.time.year, 1 ] ];
-  var d3_time_scaleLocalFormats = [ [ d3.time.format("%Y"), d3_true ], [ d3.time.format("%B"), function(d) {
+  var d3_time_scaleLocalMethods = [ [ d3v3.time.second, 1 ], [ d3v3.time.second, 5 ], [ d3v3.time.second, 15 ], [ d3v3.time.second, 30 ], [ d3v3.time.minute, 1 ], [ d3v3.time.minute, 5 ], [ d3v3.time.minute, 15 ], [ d3v3.time.minute, 30 ], [ d3v3.time.hour, 1 ], [ d3v3.time.hour, 3 ], [ d3v3.time.hour, 6 ], [ d3v3.time.hour, 12 ], [ d3v3.time.day, 1 ], [ d3v3.time.day, 2 ], [ d3v3.time.week, 1 ], [ d3v3.time.month, 1 ], [ d3v3.time.month, 3 ], [ d3v3.time.year, 1 ] ];
+  var d3_time_scaleLocalFormats = [ [ d3v3.time.format("%Y"), d3_true ], [ d3v3.time.format("%B"), function(d) {
     return d.getMonth();
-  } ], [ d3.time.format("%b %d"), function(d) {
+  } ], [ d3v3.time.format("%b %d"), function(d) {
     return d.getDate() != 1;
-  } ], [ d3.time.format("%a %d"), function(d) {
+  } ], [ d3v3.time.format("%a %d"), function(d) {
     return d.getDay() && d.getDate() != 1;
-  } ], [ d3.time.format("%I %p"), function(d) {
+  } ], [ d3v3.time.format("%I %p"), function(d) {
     return d.getHours();
-  } ], [ d3.time.format("%I:%M"), function(d) {
+  } ], [ d3v3.time.format("%I:%M"), function(d) {
     return d.getMinutes();
-  } ], [ d3.time.format(":%S"), function(d) {
+  } ], [ d3v3.time.format(":%S"), function(d) {
     return d.getSeconds();
-  } ], [ d3.time.format(".%L"), function(d) {
+  } ], [ d3v3.time.format(".%L"), function(d) {
     return d.getMilliseconds();
   } ] ];
-  var d3_time_scaleLinear = d3.scale.linear(), d3_time_scaleLocalFormat = d3_time_scaleFormat(d3_time_scaleLocalFormats);
+  var d3_time_scaleLinear = d3v3.scale.linear(), d3_time_scaleLocalFormat = d3_time_scaleFormat(d3_time_scaleLocalFormats);
   d3_time_scaleLocalMethods.year = function(extent, m) {
     return d3_time_scaleLinear.domain(extent.map(d3_time_scaleGetYear)).ticks(m).map(d3_time_scaleSetYear);
   };
-  d3.time.scale = function() {
-    return d3_time_scale(d3.scale.linear(), d3_time_scaleLocalMethods, d3_time_scaleLocalFormat);
+  d3v3.time.scale = function() {
+    return d3_time_scale(d3v3.scale.linear(), d3_time_scaleLocalMethods, d3_time_scaleLocalFormat);
   };
   var d3_time_scaleUTCMethods = d3_time_scaleLocalMethods.map(function(m) {
     return [ m[0].utc, m[1] ];
   });
-  var d3_time_scaleUTCFormats = [ [ d3.time.format.utc("%Y"), d3_true ], [ d3.time.format.utc("%B"), function(d) {
+  var d3_time_scaleUTCFormats = [ [ d3v3.time.format.utc("%Y"), d3_true ], [ d3v3.time.format.utc("%B"), function(d) {
     return d.getUTCMonth();
-  } ], [ d3.time.format.utc("%b %d"), function(d) {
+  } ], [ d3v3.time.format.utc("%b %d"), function(d) {
     return d.getUTCDate() != 1;
-  } ], [ d3.time.format.utc("%a %d"), function(d) {
+  } ], [ d3v3.time.format.utc("%a %d"), function(d) {
     return d.getUTCDay() && d.getUTCDate() != 1;
-  } ], [ d3.time.format.utc("%I %p"), function(d) {
+  } ], [ d3v3.time.format.utc("%I %p"), function(d) {
     return d.getUTCHours();
-  } ], [ d3.time.format.utc("%I:%M"), function(d) {
+  } ], [ d3v3.time.format.utc("%I:%M"), function(d) {
     return d.getUTCMinutes();
-  } ], [ d3.time.format.utc(":%S"), function(d) {
+  } ], [ d3v3.time.format.utc(":%S"), function(d) {
     return d.getUTCSeconds();
-  } ], [ d3.time.format.utc(".%L"), function(d) {
+  } ], [ d3v3.time.format.utc(".%L"), function(d) {
     return d.getUTCMilliseconds();
   } ] ];
   var d3_time_scaleUTCFormat = d3_time_scaleFormat(d3_time_scaleUTCFormats);
@@ -7800,7 +7800,7 @@
   d3_time_scaleUTCMethods.year = function(extent, m) {
     return d3_time_scaleLinear.domain(extent.map(d3_time_scaleUTCGetYear)).ticks(m).map(d3_time_scaleUTCSetYear);
   };
-  d3.time.scale.utc = function() {
-    return d3_time_scale(d3.scale.linear(), d3_time_scaleUTCMethods, d3_time_scaleUTCFormat);
+  d3v3.time.scale.utc = function() {
+    return d3_time_scale(d3v3.scale.linear(), d3_time_scaleUTCMethods, d3_time_scaleUTCFormat);
   };
 })();
