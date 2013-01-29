@@ -4,19 +4,22 @@
     <title>Prespuesto Abierto</title>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="/assets/stylesheets/style.css"/>
+    <link rel="stylesheet" href="assets/stylesheets/d3-bootstrap-plugins.css"/>
 </head>
 <body>
 <div id="body"></div>
 
+<script src="assets/javascripts/jquery-1.8.3.min.js"></script>
 <script src="/assets/javascripts/d3.v2.4.4.js"></script>
-<script src="assets/javascripts/d3.v3.js"></script>
+<script src="/assets/javascripts/d3.v3.js"></script>
 <script src="/assets/javascripts/d3.layout.js"></script>
+<script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
 <script>
     var w = 1280 - 80,
             h = 800 - 180,
             x = d3.scale.linear().range([0, w]),
             y = d3.scale.linear().range([0, h]),
-            color = d3.scale.category20c(),
+            color = d3.scale.category10(),
             root,
             node;
 
@@ -77,9 +80,24 @@
         cell.append("svg:rect")
                 .attr("width", function(d) { return d.dx - 1; })
                 .attr("height", function(d) { return d.dy - 1; })
+                .attr("class", "area")
+                .attr("rel", "tooltip")
                 .style("fill", function(d) {
                     return color(d.parent.name);
                 });
+//                .tooltip(function(d, i) {
+//                    var element = d3.select(this);
+//                    return {
+//                        type: "tooltip",
+//                        text: "$",
+//                        detection: "shape",
+//                        placement: "fixed",
+//                        gravity: "bottom",
+//                        position: [d.x, d.y],
+//                        displacement: [element.attr("width")/2, 0],
+//                        mousemove: false
+//                    };
+//                });
 
         cell.append("svg:text")
                 .attr("x", function(d) { return d.dx / 2; })
