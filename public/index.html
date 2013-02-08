@@ -40,6 +40,10 @@
             .append("svg:g")
             .attr("transform", "translate(.5,.5)");
 
+    var div = d3.select("body").append("div")
+            .attr("id", "tooltip")
+            .style("opacity", 1e-6);
+
     d3v3.csv("/assets/javascripts/2013.csv", function(data) {
 
         // Process data
@@ -84,7 +88,10 @@
                 .attr("class", "area")
                 .style("fill", function(d) {
                     return color(d.parent.name);
-                });
+                })
+                .on("mouseover", function(d) { mouseover(d) })
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseout);
 
         cell.append("svg:text")
                 .attr("x", function(d) { return d.dx / 2; })
@@ -94,6 +101,7 @@
                 .text(function(d) {
                     return d.funcion;
                 })
+                .style("pointer-events", "none")
                 .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
 
         d3.select(window).on("click", function() { zoom(root); });
@@ -128,6 +136,44 @@
 
         node = d;
         d3.event.stopPropagation();
+    }
+
+    function mouseover(d) {
+        var millions = addCommas((d.monto / 1000000).toFixed(0));
+        var budget = d.parent.parent.value;
+        var percentage = (d.monto / budget * 100).toFixed(2);
+
+        $("#tooltip")
+                .empty()
+                .append('<p>' + d.funcion + '</p>')
+                .append('<p>$' + millions + 'M (' + percentage + '%)</p>');
+        div.transition()
+                .duration(500)
+                .style("opacity", 1);
+    }
+
+    function mousemove() {
+        div.style("left", (d3.event.pageX - 50) + "px")
+                .style("top", (d3.event.pageY + 24) + "px");
+    }
+
+    function mouseout() {
+        div.transition()
+                .duration(500)
+                .style("opacity", 1e-6);
+    }
+
+    function addCommas(nStr)
+    {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
     }
 
 </script>
